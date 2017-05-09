@@ -22,8 +22,14 @@ class SpotifyAuthTests: XCTestCase {
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectatioin = expectation(description: "something happening")
+        var url = URL(string: "labcaviar://#access_token=BQD0cOblsjhTMxXnvanbHhlFsEzs0qj1Spou7MqgO4-FQjcKf4jvQneJzlMHYzYHENdrgeYO82rgQPaoO8eydSFyursIZ_PSR38Sl-6HEzipQWSjgqzWqx6o1rCamFXPK7-mWbBW1GCSrLxQ-Blv2qbxFVm-z6ePg5tGxmRcnXNWLRzKGkF9svdUol_RdBD70Q&token_type=Bearer&expires_in=3600")
+
+        let auth = Auth()
+        auth.handleAuthCallback(url: url!) { (error, session) in
+            print("error \(error), session \(error)")
+        }
+        waitForExpectations(timeout: 10.0, handler: nil)
     }
     
     func testPerformanceExample() {
