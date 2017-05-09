@@ -8,22 +8,22 @@
 
 import Foundation
 
-enum AuthScope: String {
-    case Streaming
-    enum Playlist: String {
-        case ReadPrivate
-        case ReadCollaborative
-        case ModifyPublic
-        case ModifyPrivate
+public enum AuthScope: String {
+    case Streaming = "streaming"
+    public enum Playlist: String {
+        case ReadPrivate = "playlist-read-private"
+        case ReadCollaborative = "playlist-read-collaborative"
+        case ModifyPublic = "playlist-modify-public"
+        case ModifyPrivate = "playlist-modify-private"
     }
-    enum User: String {
-        case FollowRead
-        case LibraryRead
-        case LibraryModify
-        case ReadPrivate
-        case ReadTop
-        case ReadBirthDate
-        case ReadEmail
+    public enum User: String {
+        case FollowRead = "user-follow-read"
+        case LibraryRead = "user-library-read"
+        case LibraryModify = "user-library-modify"
+        case ReadPrivate = "user-read-private"
+        case ReadTop = "user-top-read"
+        case ReadBirthDate = "user-read-birthdate"
+        case ReadEmail = "user-read-email"
     }
 }
 
@@ -35,12 +35,14 @@ public class Auth {
 
     public typealias AuthCallback = (Error?, Session?) -> ()
 
-    var clientID: String?
-    var redirectURL: URL?
-    var requestedScopes: [String]?
-    var session: Session?
-    var tokenSwapURL: URL?
-    var tokenRefreshURL: URL?
+    public var clientID: String?
+    public var redirectURL: URL?
+    public var requestedScopes: [String]?
+    public var session: Session?
+    public var tokenSwapURL: URL?
+    public var tokenRefreshURL: URL?
+
+    public static let sharedInstance = Auth()
 
     public class func loginURL(clientID: String?, redirectURL: URL?, scopes: [String]?, responseType: String = "code", campaignID: String = Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: String = Constants.AuthServiceEndpointURL.rawValue) -> URL? {
         guard let clientID = clientID, let redirectURL = redirectURL, let scopes = scopes else {
@@ -66,10 +68,10 @@ public class Auth {
         params[Constants.AuthUTMCampaignQueryKey.rawValue] = campaignID
 
         let pairs = params.map{"\($0)=\($1)"}
-        let loginPageURLString = "\(endpoint)authorize?\(pairs.joined(separator: "&"))"
-        let escapedString = loginPageURLString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ??  String()
+        let pairsString = pairs.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ??  String()
 
-        return URL(string: escapedString)
+        let loginPageURLString = "\(endpoint)authorize?\(pairsString)"
+        return URL(string: loginPageURLString)
     }
 
     private func parse(url: URL) -> (authToken: String?, expiresIn: Int?, error: Bool) {
@@ -119,6 +121,7 @@ public class Auth {
                     }
                     if let jsonObject = jsonObject, let userID = jsonObject["id"] as? String {
                         let session = Session(userName: userID, accessToken: accessToken, encryptedRefreshToken: nil, expirationDate: Date(timeIntervalSinceNow: Double(expiresIn)))
+                        self.session = session
                         callback(nil, session)
                     }
                 }
@@ -126,119 +129,6 @@ public class Auth {
             task.resume()
 
         }
-//            } else if (dict[@"code"]) {
-//
-//                NSDictionary *params = @{ @"code" : dict[@"code"] };
-//
-//                NSMutableArray *pairs = [NSMutableArray array];
-//                for (NSString *key in params) {
-//                    NSString *formattedString = [NSString stringWithFormat:@"%@=%@",
-//                        [SPTAuth urlEncodeString:key],
-//                        [SPTAuth urlEncodeString:params[key]]
-//                    ];
-//                    [pairs addObject:formattedString];
-//                }
-//
-//                NSString *requestString = [pairs componentsJoinedByString:@"&"];
-//                NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.tokenSwapURL];
-//                request.HTTPMethod = @"POST";
-//                [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-//                request.HTTPBody = [requestString dataUsingEncoding:NSUTF8StringEncoding];
-//
-//                NSURLResponse *response = nil;
-//                NSError *err = nil;
-//                NSData *returnData = [NSURLConnection sendSynchronousRequest:request
-//                    returningResponse:&response
-//                    error:&err];
-//
-//                if (err != nil) {
-//                    if (block) {
-//                        dispatch_async(dispatch_get_main_queue(), ^{ block(err, nil); });
-//                    }
-//                    return;
-//                }
-//
-//                id json = [NSJSONSerialization JSONObjectWithData:returnData options:0 error:&err];
-//
-//                if (err != nil) {
-//                    if (block) {
-//                        dispatch_async(dispatch_get_main_queue(), ^{ block(err, nil); });
-//                    }
-//                    return;
-//                }
-//
-//                NSUInteger statusCode = 200;
-//
-//                if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-//                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-//                    statusCode = httpResponse.statusCode;
-//                }
-//
-//                if (json[SPTAuthJSONErrorKey] != nil || statusCode != 200) {
-//                    NSString *errorDescription = json[SPTAuthJSONErrorDescriptionKey] ?: json[SPTAuthJSONErrorKey];
-//                    NSError *error = [NSError errorWithDomain:SPTAuthErrorDomain
-//                    code:statusCode
-//                    userInfo:@{ NSLocalizedDescriptionKey : errorDescription}];
-//                    if (block) {
-//                        dispatch_async(dispatch_get_main_queue(), ^{ block(error, nil); });
-//                    }
-//                    return;
-//                }
-//
-//                NSString *accessToken = json[@"access_token"];
-//                NSTimeInterval expirationTime = [json[@"expires_in"] doubleValue];
-//                NSString *encryptedRefreshToken = json[@"refresh_token"];
-//
-//                // Fetch username from another endpoint...
-//                NSURL *profileURL = [NSURL URLWithString:SPTProfileServiceEndpointURL];
-//                NSMutableURLRequest *profileRequest = [NSMutableURLRequest requestWithURL:profileURL];
-//                NSString *authorizationHeaderValue = [NSString stringWithFormat:@"Bearer %@", accessToken];
-//                [profileRequest setValue:authorizationHeaderValue forHTTPHeaderField:@"Authorization"];
-//
-//                NSURLResponse *profileResponse = nil;
-//                NSError *profileError = nil;
-//                NSData *profileReturnData = [NSURLConnection sendSynchronousRequest:profileRequest
-//                returningResponse:&profileResponse
-//                error:&profileError];
-//
-//                if (profileError) {
-//                    if (block) {
-//                        dispatch_async(dispatch_get_main_queue(), ^{ block(profileError, nil); });
-//                    }
-//                    return;
-//                }
-//
-//                id profileJSON = [NSJSONSerialization JSONObjectWithData:profileReturnData options:0 error:&profileError];
-//
-//                if (profileError) {
-//                    if (block) {
-//                        dispatch_async(dispatch_get_main_queue(), ^{ block(profileError, nil); });
-//                    }
-//                    return;
-//                }
-//
-//                NSString *userName = profileJSON[@"id"];
-//
-//                if (block) {
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        NSDate *expirationDate = [NSDate dateWithTimeIntervalSinceNow:expirationTime];
-//                        self.session = [[SPTSession alloc] initWithUserName:userName
-//                            accessToken:accessToken
-//                            encryptedRefreshToken:encryptedRefreshToken
-//                            expirationDate:expirationDate];
-//                        block(nil, self.session);
-//                        });
-//                }
-//            } else {
-//                NSString *errorDescription = dict[SPTAuthJSONErrorDescriptionKey] ?: dict[SPTAuthJSONErrorKey];
-//                NSError *error = [NSError errorWithDomain:SPTAuthErrorDomain
-//                code:0
-//                userInfo:@{ NSLocalizedDescriptionKey : errorDescription}];
-//                if (block) {
-//                    dispatch_async(dispatch_get_main_queue(), ^{ block(error, nil); });
-//                }
-//            }
-//            });
     }
 
     public class func supportsApplicationAuthentication() -> Bool {
