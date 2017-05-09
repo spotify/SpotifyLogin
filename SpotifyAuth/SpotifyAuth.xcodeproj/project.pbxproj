@@ -10,6 +10,8 @@
 		3479D28F1EC1ADEE00FF4EE2 /* SpotifyAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3479D2851EC1ADEE00FF4EE2 /* SpotifyAuth.framework */; };
 		3479D2941EC1ADEE00FF4EE2 /* SpotifyAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2931EC1ADEE00FF4EE2 /* SpotifyAuthTests.swift */; };
 		3479D2961EC1ADEE00FF4EE2 /* SpotifyAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 3479D2881EC1ADEE00FF4EE2 /* SpotifyAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3479D2A31EC1B00B00FF4EE2 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A21EC1B00B00FF4EE2 /* Auth.swift */; };
+		3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A41EC1B50900FF4EE2 /* Constants.swift */; };
 		BEF4FC611EC1AE810082945B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC601EC1AE810082945B /* Session.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		3479D28E1EC1ADEE00FF4EE2 /* SpotifyAuthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpotifyAuthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3479D2931EC1ADEE00FF4EE2 /* SpotifyAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAuthTests.swift; sourceTree = "<group>"; };
 		3479D2951EC1ADEE00FF4EE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3479D2A21EC1B00B00FF4EE2 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		3479D2A41EC1B50900FF4EE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BEF4FC601EC1AE810082945B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,6 +80,8 @@
 				3479D2881EC1ADEE00FF4EE2 /* SpotifyAuth.h */,
 				3479D2891EC1ADEE00FF4EE2 /* Info.plist */,
 				BEF4FC601EC1AE810082945B /* Session.swift */,
+				3479D2A21EC1B00B00FF4EE2 /* Auth.swift */,
+				3479D2A41EC1B50900FF4EE2 /* Constants.swift */,
 			);
 			path = SpotifyAuth;
 			sourceTree = "<group>";
@@ -203,6 +209,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEF4FC611EC1AE810082945B /* Session.swift in Sources */,
+				3479D2A31EC1B00B00FF4EE2 /* Auth.swift in Sources */,
+				3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
