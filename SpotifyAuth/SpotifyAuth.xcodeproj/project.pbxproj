@@ -10,6 +10,7 @@
 		3479D28F1EC1ADEE00FF4EE2 /* SpotifyAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3479D2851EC1ADEE00FF4EE2 /* SpotifyAuth.framework */; };
 		3479D2941EC1ADEE00FF4EE2 /* SpotifyAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2931EC1ADEE00FF4EE2 /* SpotifyAuthTests.swift */; };
 		3479D2961EC1ADEE00FF4EE2 /* SpotifyAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 3479D2881EC1ADEE00FF4EE2 /* SpotifyAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEF4FC611EC1AE810082945B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC601EC1AE810082945B /* Session.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		3479D28E1EC1ADEE00FF4EE2 /* SpotifyAuthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpotifyAuthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3479D2931EC1ADEE00FF4EE2 /* SpotifyAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAuthTests.swift; sourceTree = "<group>"; };
 		3479D2951EC1ADEE00FF4EE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEF4FC601EC1AE810082945B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				3479D2881EC1ADEE00FF4EE2 /* SpotifyAuth.h */,
 				3479D2891EC1ADEE00FF4EE2 /* Info.plist */,
+				BEF4FC601EC1AE810082945B /* Session.swift */,
 			);
 			path = SpotifyAuth;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 					3479D2841EC1ADEE00FF4EE2 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 2FNC3A47ZF;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					3479D28D1EC1ADEE00FF4EE2 = {
@@ -198,6 +202,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEF4FC611EC1AE810082945B /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +329,7 @@
 		3479D29A1EC1ADEE00FF4EE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
@@ -336,6 +342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyAuth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -343,6 +350,7 @@
 		3479D29B1EC1ADEE00FF4EE2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
@@ -362,6 +370,7 @@
 		3479D29D1EC1ADEE00FF4EE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
 				INFOPLIST_FILE = SpotifyAuthTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -374,6 +383,7 @@
 		3479D29E1EC1ADEE00FF4EE2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
 				INFOPLIST_FILE = SpotifyAuthTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -402,6 +412,7 @@
 				3479D29B1EC1ADEE00FF4EE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3479D29C1EC1ADEE00FF4EE2 /* Build configuration list for PBXNativeTarget "SpotifyAuthTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +421,7 @@
 				3479D29E1EC1ADEE00FF4EE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
