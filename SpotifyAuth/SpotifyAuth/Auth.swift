@@ -47,8 +47,8 @@ public class Auth {
             return _session
         }
         set {
-            _session = session
-            KeychainService.save(session: session)
+            _session = newValue
+            KeychainService.save(session: newValue)
         }
     }
     public var tokenSwapURL: URL?
