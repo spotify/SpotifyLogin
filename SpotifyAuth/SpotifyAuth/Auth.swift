@@ -38,7 +38,19 @@ public class Auth {
     public var clientID: String?
     public var redirectURL: URL?
     public var requestedScopes: [String]?
-    public var session: Session?
+    internal var _session: Session?
+    public var session: Session? {
+        get {
+            if _session == nil {
+                return KeychainService.loadSession()
+            }
+            return _session
+        }
+        set {
+            _session = session
+            KeychainService.save(session: session)
+        }
+    }
     public var tokenSwapURL: URL?
     public var tokenRefreshURL: URL?
 

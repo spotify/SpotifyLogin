@@ -13,6 +13,7 @@
 		3479D2A31EC1B00B00FF4EE2 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A21EC1B00B00FF4EE2 /* Auth.swift */; };
 		3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A41EC1B50900FF4EE2 /* Constants.swift */; };
 		BEF4FC611EC1AE810082945B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC601EC1AE810082945B /* Session.swift */; };
+		BEF4FC661EC1EE600082945B /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC651EC1EE600082945B /* Keychain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		3479D2A21EC1B00B00FF4EE2 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		3479D2A41EC1B50900FF4EE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BEF4FC601EC1AE810082945B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		BEF4FC651EC1EE600082945B /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				BEF4FC601EC1AE810082945B /* Session.swift */,
 				3479D2A21EC1B00B00FF4EE2 /* Auth.swift */,
 				3479D2A41EC1B50900FF4EE2 /* Constants.swift */,
+				BEF4FC651EC1EE600082945B /* Keychain.swift */,
 			);
 			path = SpotifyAuth;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEF4FC611EC1AE810082945B /* Session.swift in Sources */,
+				BEF4FC661EC1EE600082945B /* Keychain.swift in Sources */,
 				3479D2A31EC1B00B00FF4EE2 /* Auth.swift in Sources */,
 				3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */,
 			);
