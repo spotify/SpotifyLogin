@@ -108,7 +108,9 @@ public class Auth {
             profileRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
             let task = URLSession.shared.dataTask(with: profileRequest, completionHandler: { (data, response, error) in
                 if (error != nil) {
-                    callback(error, nil)
+                    DispatchQueue.main.async {
+                        callback(error, nil)
+                    }
                     return
                 }
                 if let data = data {
@@ -117,12 +119,16 @@ public class Auth {
                         jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
                     }
                     catch let error {
-                        callback(error, nil)
+                        DispatchQueue.main.async {
+                            callback(error, nil)
+                        }
                     }
                     if let jsonObject = jsonObject, let userID = jsonObject["id"] as? String {
                         let session = Session(userName: userID, accessToken: accessToken, encryptedRefreshToken: nil, expirationDate: Date(timeIntervalSinceNow: Double(expiresIn)))
                         self.session = session
-                        callback(nil, session)
+                        DispatchQueue.main.async {
+                            callback(nil, session)
+                        }
                     }
                 }
             })
