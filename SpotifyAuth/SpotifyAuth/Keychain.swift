@@ -18,13 +18,16 @@ public class KeychainService {
             return
         }
 
-        let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
-                                               kSecAttrServiceValue: "com.spotify.SpotifyAuth",
-                                               kSecAttrAccountValue: session.userName,
-                                               kSecValueDataValue: session.archive()]
-        UserDefaults.standard.set(session.userName, forKey: "userName")
-        SecItemDelete(keychainQuery as CFDictionary)
-        SecItemAdd(keychainQuery as CFDictionary, nil)
+        do {
+            let encodedSession = try PropertyListEncoder().encode(session)
+            let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
+                                                kSecAttrServiceValue: "com.spotify.SpotifyAuth",
+                                                kSecAttrAccountValue: session.userName,
+                                                kSecValueDataValue: encodedSession]
+            UserDefaults.standard.set(session.userName, forKey: "userName")
+            SecItemDelete(keychainQuery as CFDictionary)
+            SecItemAdd(keychainQuery as CFDictionary, nil)
+        } catch {}
     }
 
     public class func loadSession() -> Session? {
@@ -44,8 +47,8 @@ public class KeychainService {
 
         if status == errSecSuccess {
             if let contentsOfKeychain = dataBuffer as? Data {
-                let session = Session.unarchive(data: contentsOfKeychain)
-                return session
+                let decodedSession = try? PropertyListDecoder().decode(Session.self, from: contentsOfKeychain)
+                return decodedSession
             }
         }
 
