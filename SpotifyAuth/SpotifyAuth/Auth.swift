@@ -147,45 +147,37 @@ public class Auth {
         task.resume()
     }
 
-    public func renew(session: Session, endpointURL: URL, callback: @escaping AuthCallback) {
+    public func renew(session: Session, callback: @escaping AuthCallback) {
         guard let encryptedRefreshToken = session.encryptedRefreshToken else {
             callback(AuthError.NoRefreshToken, nil)
             return
         }
+        let endpoint = URL(string: Constants.APITokenEndpointURL.rawValue)!
         let formDataString = "grant_type=refresh_token&refresh_token=\(encryptedRefreshToken)"
-        var request = URLRequest(url: endpointURL)
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpBody = formDataString.data(using: .utf8)
-        request.httpMethod = "POST"
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+        var urlRequest = URLRequest(url: endpoint)
+        if let authString = self.clientSecret?.data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) {
+            let authHeaderValue = "Basic \(authString)"
+            urlRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
+        }
+        urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = formDataString.data(using: .utf8)
+        urlRequest.httpMethod = "POST"
+        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { [weak self] (data, response, error) in
             if (error != nil) {
                 DispatchQueue.main.async {
                     callback(error, nil)
                 }
                 return
             }
-            if let data = data {
-                var jsonObject: [String: Any]?
-                do {
-                    jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                }
-                catch let error {
-                    DispatchQueue.main.async {
-                        callback(error, nil)
-                    }
-                }
-                if let jsonObject = jsonObject {
-                    //, let userID = jsonObject["id"] as? String {
-                    //let session = Session(userName: userID, accessToken: session.accessToken, encryptedRefreshToken: nil, expirationDate: Date(timeIntervalSinceNow: Double(session.expiresIn)))
-                    self.session = session
-                    DispatchQueue.main.async {
-                        callback(nil, session)
-                    }
+            if let data = data, let authResponse = try? JSONDecoder().decode(APITokenEndpointResponse.self, from: data) {
+                let session = Session(userName: session.userName, accessToken: session.accessToken, encryptedRefreshToken: authResponse.refresh_token, expirationDate: Date(timeIntervalSinceNow: authResponse.expires_in))
+                self?.session = session
+                DispatchQueue.main.async {
+                    callback(nil, session)
                 }
             }
         })
         task.resume()
-
     }
 
     public class func supportsApplicationAuthentication() -> Bool {
@@ -222,7 +214,7 @@ public class Auth {
 struct APITokenEndpointResponse: Codable {
     let access_token: String
     let expires_in: Double
-    let refresh_token: String
+    let refresh_token: String?
 }
 
 struct ProfileEndpointResponse: Codable {
