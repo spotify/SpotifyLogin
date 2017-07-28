@@ -8,35 +8,14 @@
 
 import Foundation
 
-public enum AuthScope: String {
-    case Streaming = "streaming"
-    public enum Playlist: String {
-        case ReadPrivate = "playlist-read-private"
-        case ReadCollaborative = "playlist-read-collaborative"
-        case ModifyPublic = "playlist-modify-public"
-        case ModifyPrivate = "playlist-modify-private"
-    }
-    public enum User: String {
-        case FollowRead = "user-follow-read"
-        case LibraryRead = "user-library-read"
-        case LibraryModify = "user-library-modify"
-        case ReadPrivate = "user-read-private"
-        case ReadTop = "user-top-read"
-        case ReadBirthDate = "user-read-birthdate"
-        case ReadEmail = "user-read-email"
-    }
-}
-
-enum AuthError: Error {
-    case General
-}
-
 public class Auth {
 
     public typealias AuthCallback = (Error?, Session?) -> ()
 
     public var clientID: String?
+    public var clientSecret: String?
     public var redirectURL: URL?
+
     public var requestedScopes: [String]?
     internal var _session: Session?
     public var session: Session? {
@@ -51,13 +30,17 @@ public class Auth {
             KeychainService.save(session: newValue)
         }
     }
-    public var tokenSwapURL: URL?
-    public var tokenRefreshURL: URL?
 
     public static let sharedInstance = Auth()
 
-    public class func loginURL(clientID: String?, redirectURL: URL?, scopes: [String]?, responseType: String = "code", campaignID: String = Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: String = Constants.AuthServiceEndpointURL.rawValue) -> URL? {
-        guard let clientID = clientID, let redirectURL = redirectURL, let scopes = scopes else {
+    public func configure(clientID: String?, clientSecret: String?, redirectURL: URL?) {
+        self.clientID = clientID
+        self.clientSecret = clientSecret
+        self.redirectURL = redirectURL
+    }
+
+    public func loginURL(scopes: [String]?, responseType: String = "code", campaignID: String = Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: String = Constants.AuthServiceEndpointURL.rawValue) -> URL? {
+        guard let clientID = self.clientID, let redirectURL = self.redirectURL, let scopes = scopes else {
             return nil
         }
 
@@ -66,7 +49,6 @@ public class Auth {
         params["redirect_uri"] = redirectURL.absoluteString
         params["response_type"] = responseType
         params["show_dialog"] = "true"
-
 
         if (scopes.count > 0) {
             params["scope"] = scopes.joined(separator: " ")
@@ -86,24 +68,20 @@ public class Auth {
         return URL(string: loginPageURLString)
     }
 
-    private func parse(url: URL) -> (authToken: String?, expiresIn: Int?, error: Bool) {
-        var authToken: String?
-        var expiresIn: Int?
+    private func parse(url: URL) -> (code: String?, error: Bool) {
+        var code: String?
         var error = false
-        if let fragment = url.fragment {
+        if let fragment = url.query {
             let fragmentItems = fragment.components(separatedBy: "&").reduce([String:String]()) { (dict, fragmentItem) in
                 var mutableDict = dict
                 let splitValue = fragmentItem.components(separatedBy: "=")
                 mutableDict[splitValue[0]] = splitValue[1]
                 return mutableDict
             }
-            authToken = fragmentItems["access_token"]
-            if let expiresInString = fragmentItems["expires_in"] {
-                expiresIn = Int(expiresInString)
-            }
+            code = fragmentItems["code"]
             error = fragment.contains("error")
         }
-        return (authToken: authToken, expiresIn: expiresIn, error: error)
+        return (code: code, error: error)
     }
 
     public func handleAuthCallback(url: URL, callback: @escaping AuthCallback) {
@@ -113,40 +91,101 @@ public class Auth {
             return
         }
 
-        if let accessToken = parsedURL.authToken, let expiresIn = parsedURL.expiresIn {
-            let profileURL = URL(string: Constants.ProfileServiceEndpointURL.rawValue)!
-            var profileRequest = URLRequest(url: profileURL)
-            let authHeaderValue = "Bearer \(accessToken)"
-            profileRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
-            let task = URLSession.shared.dataTask(with: profileRequest, completionHandler: { (data, response, error) in
+        if let code = parsedURL.code, let redirectURL = self.redirectURL, let authString = self.clientSecret?.data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) {
+            let endpoint = URL(string: Constants.APITokenEndpointURL.rawValue)!
+            var urlRequest = URLRequest(url: endpoint)
+            let authHeaderValue = "Basic \(authString)"
+            let requestBodyString = "code=\(code)&grant_type=authorization_code&redirect_uri=\(redirectURL)"
+            urlRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
+            urlRequest.addValue("application/x-www-form-urlencoded" , forHTTPHeaderField: "content-type")
+            urlRequest.httpMethod = "POST"
+            urlRequest.httpBody = requestBodyString.data(using: .utf8)
+            let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { [weak self] (data, response, error) in
                 if (error != nil) {
                     DispatchQueue.main.async {
                         callback(error, nil)
                     }
                     return
                 }
-                if let data = data {
-                    var jsonObject: [String: Any]?
-                    do {
-                        jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                    }
-                    catch let error {
-                        DispatchQueue.main.async {
-                            callback(error, nil)
+                if let data = data, let authResponse = try? JSONDecoder().decode(APITokenEndpointResponse.self, from: data) {
+                    self?.fetchUsername(accessToken: authResponse.access_token, completion: { (username) in
+                        if let username = username {
+                            let session = Session(userName: username, accessToken: authResponse.access_token, encryptedRefreshToken: authResponse.refresh_token, expirationDate: Date(timeIntervalSinceNow: authResponse.expires_in))
+                            self?.session = session
+                            DispatchQueue.main.async {
+                                callback(nil, session)
+                            }
                         }
-                    }
-                    if let jsonObject = jsonObject, let userID = jsonObject["id"] as? String {
-                        let session = Session(userName: userID, accessToken: accessToken, encryptedRefreshToken: nil, expirationDate: Date(timeIntervalSinceNow: Double(expiresIn)))
-                        self.session = session
-                        DispatchQueue.main.async {
-                            callback(nil, session)
-                        }
-                    }
+                    })
                 }
             })
             task.resume()
-
         }
+    }
+
+    private func fetchUsername(accessToken: String?, completion: @escaping (String?)->()){
+        guard let accessToken = accessToken else {
+            completion(nil)
+            return
+        }
+        let profileURL = URL(string: Constants.ProfileServiceEndpointURL.rawValue)!
+        var profileRequest = URLRequest(url: profileURL)
+        let authHeaderValue = "Bearer \(accessToken)"
+        profileRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: profileRequest, completionHandler: { (data, response, error) in
+            if (error != nil) {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            if let data = data {
+                let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
+                completion(profileResponse?.id)
+            }
+        })
+        task.resume()
+    }
+
+    public func renew(session: Session, endpointURL: URL, callback: @escaping AuthCallback) {
+        guard let encryptedRefreshToken = session.encryptedRefreshToken else {
+            callback(AuthError.NoRefreshToken, nil)
+            return
+        }
+        let formDataString = "grant_type=refresh_token&refresh_token=\(encryptedRefreshToken)"
+        var request = URLRequest(url: endpointURL)
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpBody = formDataString.data(using: .utf8)
+        request.httpMethod = "POST"
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+            if (error != nil) {
+                DispatchQueue.main.async {
+                    callback(error, nil)
+                }
+                return
+            }
+            if let data = data {
+                var jsonObject: [String: Any]?
+                do {
+                    jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+                }
+                catch let error {
+                    DispatchQueue.main.async {
+                        callback(error, nil)
+                    }
+                }
+                if let jsonObject = jsonObject {
+                    //, let userID = jsonObject["id"] as? String {
+                    //let session = Session(userName: userID, accessToken: session.accessToken, encryptedRefreshToken: nil, expirationDate: Date(timeIntervalSinceNow: Double(session.expiresIn)))
+                    self.session = session
+                    DispatchQueue.main.async {
+                        callback(nil, session)
+                    }
+                }
+            }
+        })
+        task.resume()
+
     }
 
     public class func supportsApplicationAuthentication() -> Bool {
@@ -175,8 +214,17 @@ public class Auth {
 
 
     private func authenticationURL(endpoint: String) -> URL? {
-        let responseType = (tokenSwapURL != nil) ? "code" : "token"
-        return Auth.loginURL(clientID: self.clientID, redirectURL: self.redirectURL, scopes: self.requestedScopes, responseType: responseType, campaignID: Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: endpoint)
+        return self.loginURL(scopes: self.requestedScopes, campaignID: Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: endpoint)
     }
 
+}
+
+struct APITokenEndpointResponse: Codable {
+    let access_token: String
+    let expires_in: Double
+    let refresh_token: String
+}
+
+struct ProfileEndpointResponse: Codable {
+    let id: String
 }
