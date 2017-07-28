@@ -7,16 +7,19 @@
 //
 
 import Foundation
+import SafariServices
 
+/// Auth object.
 public class Auth {
 
-    public typealias AuthCallback = (Error?, Session?) -> ()
+    /// Shared instance.
+    public static let shared = Auth()
 
-    public var clientID: String?
-    public var clientSecret: String?
-    public var redirectURL: URL?
+    private(set) public var clientID: String?
+    private var clientSecret: String?
+    private var redirectURL: URL?
+    private var requestedScopes: [String]?
 
-    public var requestedScopes: [String]?
     internal var _session: Session?
     public var session: Session? {
         get {
@@ -31,60 +34,45 @@ public class Auth {
         }
     }
 
-    public static let sharedInstance = Auth()
+    // MARK: Interface
 
-    public func configure(clientID: String?, clientSecret: String?, redirectURL: URL?) {
+    /// Configure auth object.
+    ///
+    /// - Parameters:
+    ///   - clientID: App's client id.
+    ///   - clientSecret: App's client secret.
+    ///   - redirectURL: App's redirect url.
+    ///   - requestedScopes: Requested scopes.
+    public func configure(clientID: String, clientSecret: String, redirectURL: URL, requestedScopes: [String]) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
+        self.requestedScopes = requestedScopes
     }
 
-    public func loginURL(scopes: [String]?, responseType: String = "code", campaignID: String = Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: String = Constants.AuthServiceEndpointURL.rawValue) -> URL? {
-        guard let clientID = self.clientID, let redirectURL = self.redirectURL, let scopes = scopes else {
-            return nil
-        }
 
-        var params = [String: String]()
-        params["client_id"] = clientID
-        params["redirect_uri"] = redirectURL.absoluteString
-        params["response_type"] = responseType
-        params["show_dialog"] = "true"
-
-        if (scopes.count > 0) {
-            params["scope"] = scopes.joined(separator: " ")
-        }
-
-        params["nosignup"] = "true"
-        params["nolinks"] = "true"
-
-        params[Constants.AuthUTMSourceQueryKey.rawValue] = Constants.AuthUTMSourceQueryValue.rawValue
-        params[Constants.AuthUTMMediumQueryKey.rawValue] = Constants.AuthUTMMediumCampaignQueryValue.rawValue
-        params[Constants.AuthUTMCampaignQueryKey.rawValue] = campaignID
-
-        let pairs = params.map{"\($0)=\($1)"}
-        let pairsString = pairs.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ??  String()
-
-        let loginPageURLString = "\(endpoint)authorize?\(pairsString)"
-        return URL(string: loginPageURLString)
-    }
-
-    private func parse(url: URL) -> (code: String?, error: Bool) {
-        var code: String?
-        var error = false
-        if let fragment = url.query {
-            let fragmentItems = fragment.components(separatedBy: "&").reduce([String:String]()) { (dict, fragmentItem) in
-                var mutableDict = dict
-                let splitValue = fragmentItem.components(separatedBy: "=")
-                mutableDict[splitValue[0]] = splitValue[1]
-                return mutableDict
+    /// Trigger log in flow.
+    ///
+    /// - Parameter viewController: The view controller that orignates the log in flow.
+    public func login(from viewController: (UIViewController & SFSafariViewControllerDelegate)) {
+        if let appAuthenticationURL = appAuthenticationURL(), UIApplication.shared.canOpenURL(appAuthenticationURL) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(appAuthenticationURL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(appAuthenticationURL)
             }
-            code = fragmentItems["code"]
-            error = fragment.contains("error")
+        } else if let webAuthenticationURL = webAuthenticationURL() {
+            viewController.definesPresentationContext = true
+            let safariVC: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
+            safariVC.delegate = viewController
+            safariVC.modalPresentationStyle = .pageSheet
+            viewController.present(safariVC, animated: true, completion: nil)
+        } else {
+            assertionFailure("Unable to login.")
         }
-        return (code: code, error: error)
     }
 
-    public func handleAuthCallback(url: URL, callback: @escaping AuthCallback) {
+    public func handleAuthCallback(url: URL, callback: @escaping (Error?, Session?) -> ()) {
         let parsedURL = parse(url: url)
         if parsedURL.error  {
             callback(AuthError.General, nil)
@@ -123,32 +111,8 @@ public class Auth {
         }
     }
 
-    private func fetchUsername(accessToken: String?, completion: @escaping (String?)->()){
-        guard let accessToken = accessToken else {
-            completion(nil)
-            return
-        }
-        let profileURL = URL(string: Constants.ProfileServiceEndpointURL.rawValue)!
-        var profileRequest = URLRequest(url: profileURL)
-        let authHeaderValue = "Bearer \(accessToken)"
-        profileRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
-        let task = URLSession.shared.dataTask(with: profileRequest, completionHandler: { (data, response, error) in
-            if (error != nil) {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                return
-            }
-            if let data = data {
-                let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
-                completion(profileResponse?.id)
-            }
-        })
-        task.resume()
-    }
-
-    public func renew(session: Session, callback: @escaping AuthCallback) {
-        guard let encryptedRefreshToken = session.encryptedRefreshToken else {
+    public func renewSession(callback: @escaping (Error?, Session?) -> ()) {
+        guard let session = self.session, let encryptedRefreshToken = session.encryptedRefreshToken else {
             callback(AuthError.NoRefreshToken, nil)
             return
         }
@@ -180,10 +144,6 @@ public class Auth {
         task.resume()
     }
 
-    public class func supportsApplicationAuthentication() -> Bool {
-        return UIApplication.shared.canOpenURL(URL(string: Constants.AppAuthURL.rawValue)!)
-    }
-
     public class func spotifyApplicationIsInstalled() -> Bool {
         return UIApplication.shared.canOpenURL(URL(string: "spotify:")!)
     }
@@ -204,11 +164,71 @@ public class Auth {
         return callbackURL.absoluteString.hasPrefix(redirectURLString)
     }
 
-
     private func authenticationURL(endpoint: String) -> URL? {
-        return self.loginURL(scopes: self.requestedScopes, campaignID: Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: endpoint)
+        return loginURL(scopes: self.requestedScopes, campaignID: Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: endpoint)
     }
 
+    // MARK: Private
+
+    private func loginURL(scopes: [String]?, responseType: String = "code", campaignID: String = Constants.AuthUTMMediumCampaignQueryValue.rawValue, endpoint: String = Constants.AuthServiceEndpointURL.rawValue) -> URL? {
+        guard let clientID = self.clientID, let redirectURL = self.redirectURL, let scopes = scopes else {
+            return nil
+        }
+
+        var params = ["client_id": clientID, "redirect_uri": redirectURL.absoluteString, "response_type": responseType, "show_dialog": "true", "nosignup": "true", "nolinks": "true", "utm_source": "spotify-sdk", "utm_medium": "ios-sdk", "utm_campaign": campaignID]
+
+        if (scopes.count > 0) {
+            params["scope"] = scopes.joined(separator: " ")
+        }
+
+        let pairs = params.map{"\($0)=\($1)"}
+        let pairsString = pairs.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ??  String()
+
+        let loginPageURLString = "\(endpoint)authorize?\(pairsString)"
+        return URL(string: loginPageURLString)
+    }
+
+    private func parse(url: URL) -> (code: String?, error: Bool) {
+        var code: String?
+        var error = false
+        if let fragment = url.query {
+            let fragmentItems = fragment.components(separatedBy: "&").reduce([String:String]()) { (dict, fragmentItem) in
+                var mutableDict = dict
+                let splitValue = fragmentItem.components(separatedBy: "=")
+                mutableDict[splitValue[0]] = splitValue[1]
+                return mutableDict
+            }
+            code = fragmentItems["code"]
+            error = fragment.contains("error")
+        }
+        return (code: code, error: error)
+    }
+
+
+
+    private func fetchUsername(accessToken: String?, completion: @escaping (String?)->()){
+        guard let accessToken = accessToken else {
+            completion(nil)
+            return
+        }
+        let profileURL = URL(string: Constants.ProfileServiceEndpointURL.rawValue)!
+        var profileRequest = URLRequest(url: profileURL)
+        let authHeaderValue = "Bearer \(accessToken)"
+        profileRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: profileRequest, completionHandler: { (data, response, error) in
+            if (error != nil) {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            if let data = data {
+                let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
+                completion(profileResponse?.id)
+            }
+        })
+        task.resume()
+    }
 }
 
 struct APITokenEndpointResponse: Codable {

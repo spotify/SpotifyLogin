@@ -81,8 +81,8 @@
 			children = (
 				3479D2881EC1ADEE00FF4EE2 /* SpotifyAuth.h */,
 				3479D2891EC1ADEE00FF4EE2 /* Info.plist */,
-				BEF4FC601EC1AE810082945B /* Session.swift */,
 				3479D2A21EC1B00B00FF4EE2 /* Auth.swift */,
+				BEF4FC601EC1AE810082945B /* Session.swift */,
 				3479D2A41EC1B50900FF4EE2 /* Constants.swift */,
 				BEF4FC651EC1EE600082945B /* Keychain.swift */,
 			);
@@ -362,7 +362,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SpotifyAuth/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyAuth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -384,7 +384,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SpotifyAuth/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyAuth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
