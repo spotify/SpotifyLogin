@@ -1,4 +1,4 @@
-* Spotify Swift Autherntication Framework
+Spotify Swift Authentication Framework
 =======
 
 Usage of this Framework is bound under the [Developer Terms of Use](https://developer.spotify.com/developer-terms-of-use/).
