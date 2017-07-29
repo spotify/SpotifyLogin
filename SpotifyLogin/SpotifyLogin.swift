@@ -36,18 +36,47 @@ public class SpotifyLogin {
 
     // MARK: Interface
 
-    /// Configure auth object.
+    /// Configure login object.
     ///
     /// - Parameters:
     ///   - clientID: App's client id.
     ///   - clientSecret: App's client secret.
     ///   - redirectURL: App's redirect url.
     ///   - requestedScopes: Requested scopes.
-    public func configure(clientID: String, clientSecret: String, redirectURL: URL, requestedScopes: [String]) {
+    public func configure(clientID: String, clientSecret: String, redirectURL: URL) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
-        self.requestedScopes = requestedScopes
+    }
+
+
+    /// Asynchronous call to retrieve the session's auth token. Automatically refreshes if auth token expired. 
+    ///
+    /// - Parameter completion: Returns the auth token as a string if available and an optional error.
+    public func getAccessToken(completion:@escaping (String?, Error?) -> ()) {
+        // If the login object is not fully configured, return an error
+        guard clientID != nil, clientSecret != nil, redirectURL != nil else {
+            completion(nil, LoginError.ConfigurationMissing)
+            return
+        }
+        // If there is no session, return an error
+        guard let session = self.session else {
+            completion(nil, LoginError.NoSession)
+            return
+        }
+        // If session is valid return access token, otherwsie refresh
+        if session.isValid() {
+            completion(session.accessToken, nil)
+            return
+        } else {
+            self.renewSession(callback: { (error, session) in
+                if let session = session, error == nil {
+                    completion(session.accessToken, nil)
+                } else {
+                    completion(nil, error)
+                }
+            })
+        }
     }
 
 
@@ -75,7 +104,7 @@ public class SpotifyLogin {
     public func handleAuthCallback(url: URL, callback: @escaping (Error?, Session?) -> ()) {
         let parsedURL = parse(url: url)
         if parsedURL.error  {
-            callback(AuthError.General, nil)
+            callback(LoginError.General, nil)
             return
         }
 
@@ -113,7 +142,7 @@ public class SpotifyLogin {
 
     public func renewSession(callback: @escaping (Error?, Session?) -> ()) {
         guard let session = self.session, let encryptedRefreshToken = session.encryptedRefreshToken else {
-            callback(AuthError.NoRefreshToken, nil)
+            callback(LoginError.General, nil)
             return
         }
         let endpoint = URL(string: Constants.APITokenEndpointURL.rawValue)!
@@ -156,12 +185,11 @@ public class SpotifyLogin {
         return authenticationURL(endpoint: Constants.AppAuthURL.rawValue)
     }
 
-    public func canHandleURL(callbackURL: URL) -> Bool {
+    public func canHandleURL(_ url: URL) -> Bool {
         guard let redirectURLString = redirectURL?.absoluteString else {
             return false
         }
-
-        return callbackURL.absoluteString.hasPrefix(redirectURLString)
+        return url.absoluteString.hasPrefix(redirectURLString)
     }
 
     private func authenticationURL(endpoint: String) -> URL? {

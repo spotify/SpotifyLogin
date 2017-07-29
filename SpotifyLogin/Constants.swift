@@ -43,7 +43,9 @@ public enum AuthScope: String {
     }
 }
 
-public enum AuthError: Error {
+public enum LoginError: Error {
     case General
-    case NoRefreshToken
+    case ConfigurationMissing
+    case RefreshFailed
+    case NoSession
 }

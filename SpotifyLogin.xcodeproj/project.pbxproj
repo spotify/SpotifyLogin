@@ -161,7 +161,7 @@
 					3479D2841EC1ADEE00FF4EE2 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 2FNC3A47ZF;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					3479D28D1EC1ADEE00FF4EE2 = {
@@ -368,7 +368,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -389,7 +390,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyAuth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
