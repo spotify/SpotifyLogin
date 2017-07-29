@@ -233,4 +233,5 @@ public class SpotifyLogin {
         }
         return (code: code, error: error)
     }
-]}
+
+}
