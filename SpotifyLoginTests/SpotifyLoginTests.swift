@@ -1,15 +1,15 @@
 //
-//  SpotifyAuthTests.swift
-//  SpotifyAuthTests
+//  SpotifyLoginTests.swift
+//  SpotifyLoginTests
 //
 //  Created by Roy Marmelstein on 2017-05-09.
 //  Copyright © 2017 Spotify. All rights reserved.
 //
 
 import XCTest
-@testable import SpotifyAuth
+@testable import SpotifyLogin
 
-class SpotifyAuthTests: XCTestCase {
+class SpotifyLoginTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

@@ -1,6 +1,6 @@
 //
-//  Auth.swift
-//  SpotifyAuth
+//  SpotifyLogin.swift
+//  SpotifyLogin
 //
 //  Created by Roy Marmelstein on 2017-05-09.
 //  Copyright © 2017 Spotify. All rights reserved.
@@ -9,11 +9,11 @@
 import Foundation
 import SafariServices
 
-/// Auth object.
-public class Auth {
+/// Spotify login object.
+public class SpotifyLogin {
 
     /// Shared instance.
-    public static let shared = Auth()
+    public static let shared = SpotifyLogin()
 
     private(set) public var clientID: String?
     private var clientSecret: String?

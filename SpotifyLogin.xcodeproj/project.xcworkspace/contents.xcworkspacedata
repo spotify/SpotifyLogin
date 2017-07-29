@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SpotifyAuth.xcodeproj">
+      location = "self:/Users/marmelroy/swift-sdk/SpotifyAuth/SpotifyLogin.xcodeproj">
    </FileRef>
 </Workspace>

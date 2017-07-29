@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  SpotifyAuth
+//  SpotifyLogin
 //
 //  Created by Roy Marmelstein on 2017-05-09.
 //  Copyright © 2017 Spotify. All rights reserved.
