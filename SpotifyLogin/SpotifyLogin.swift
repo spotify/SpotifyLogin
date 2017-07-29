@@ -19,9 +19,8 @@ public class SpotifyLogin {
     private var clientSecret: String?
     private var redirectURL: URL?
     private var requestedScopes: [String]?
-
-    internal var _session: Session?
-    public var session: Session? {
+    private var _session: Session?
+    private var session: Session? {
         get {
             if _session == nil {
                 return KeychainService.loadSession()
@@ -102,45 +101,34 @@ public class SpotifyLogin {
         }
     }
 
-    public func handleAuthCallback(url: URL, callback: @escaping (Error?, Session?) -> ()) {
-        let parsedURL = parse(url: url)
-        if parsedURL.error  {
-            callback(LoginError.General, nil)
+    /// Process URL and attempt to create a session.
+    ///
+    /// - Parameters:
+    ///   - url: url to handle.
+    ///   - completion: Returns an optional error or nil if successful.
+    public func handleURL(_ url: URL, completion: @escaping (Error?) -> ()) {
+        guard let redirectURL = self.redirectURL, let clientSecret = self.clientSecret else {
+            completion(LoginError.ConfigurationMissing)
             return
         }
 
-        if let code = parsedURL.code, let redirectURL = self.redirectURL, let authString = self.clientSecret?.data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) {
-            let endpoint = URL(string: APITokenEndpointURL)!
-            var urlRequest = URLRequest(url: endpoint)
-            let authHeaderValue = "Basic \(authString)"
-            let requestBodyString = "code=\(code)&grant_type=authorization_code&redirect_uri=\(redirectURL)"
-            urlRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
-            urlRequest.addValue("application/x-www-form-urlencoded" , forHTTPHeaderField: "content-type")
-            urlRequest.httpMethod = "POST"
-            urlRequest.httpBody = requestBodyString.data(using: .utf8)
-            let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { [weak self] (data, response, error) in
-                if (error != nil) {
-                    DispatchQueue.main.async {
-                        callback(error, nil)
-                    }
-                    return
+        let parsedURL = parse(url: url)
+        if let code = parsedURL.code, !parsedURL.error  {
+            SpotifyLoginNetworking.createSession(code: code, redirectURL: redirectURL, clientSecret: clientSecret, completion: { [weak self] (session, error) in
+                if error == nil {
+                    self?.session = session
                 }
-                if let data = data, let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data) {
-                    SpotifyLoginNetworking.fetchUsername(accessToken: authResponse.access_token, completion: { (username) in
-                        if let username = username {
-                            let session = Session(userName: username, accessToken: authResponse.access_token, encryptedRefreshToken: authResponse.refresh_token, expirationDate: Date(timeIntervalSinceNow: authResponse.expires_in))
-                            self?.session = session
-                            DispatchQueue.main.async {
-                                callback(nil, session)
-                            }
-                        }
-                    })
-                }
+                completion(error)
             })
-            task.resume()
+        } else {
+            completion(LoginError.InvalidUrl)
         }
     }
 
+    /// Check if SpotifyLogin can handle a url.
+    ///
+    /// - Parameter url: URL to process.
+    /// - Returns: Whether or not SpotifyLogin can handle a given url.
     public func canHandleURL(_ url: URL) -> Bool {
         guard let redirectURLString = redirectURL?.absoluteString else {
             return false

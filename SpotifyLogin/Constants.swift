@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Constants{
+internal struct Constants{
     static let ErrorDomain = "com.spotify.auth"
     static let AppAuthURL = "spotify-action://"
     static let AuthJSONErrorKey = "error"
@@ -41,4 +41,5 @@ public enum LoginError: Error {
     case ConfigurationMissing
     case RefreshFailed
     case NoSession
+    case InvalidUrl
 }

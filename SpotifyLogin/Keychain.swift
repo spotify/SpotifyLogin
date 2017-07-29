@@ -11,9 +11,9 @@ let kSecMatchLimitValue = String(kSecMatchLimit)
 let kSecReturnDataValue = String(kSecReturnData)
 let kSecMatchLimitOneValue = String(kSecMatchLimitOne)
 
-public class KeychainService {
+internal class KeychainService {
 
-    public class func save(session: Session?) {
+    internal class func save(session: Session?) {
         guard let session = session else {
             return
         }
@@ -30,7 +30,7 @@ public class KeychainService {
         } catch {}
     }
 
-    public class func loadSession() -> Session? {
+    internal class func loadSession() -> Session? {
         guard let userName = UserDefaults.standard.value(forKey: "userName") else {
             return nil
         }

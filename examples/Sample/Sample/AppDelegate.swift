@@ -25,8 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         if (SpotifyLogin.shared.canHandleURL(url)) {
             DispatchQueue.main.async {
-                SpotifyLogin.shared.handleAuthCallback(url: url, callback: { (error, session) in
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "sessionUpdated"), object: nil)
+                SpotifyLogin.shared.handleRedirectURL(url, callback: { (error) in
                 })
             }
             return true
