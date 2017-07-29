@@ -25,3 +25,31 @@ internal struct TokenEndpointResponse: Codable {
 internal struct ProfileEndpointResponse: Codable {
     let id: String
 }
+
+internal class SpotifyLoginNetworking {
+
+    internal class func fetchUsername(accessToken: String?, completion: @escaping (String?)->()){
+        guard let accessToken = accessToken else {
+            completion(nil)
+            return
+        }
+        let profileURL = URL(string: ProfileServiceEndpointURL)!
+        var profileRequest = URLRequest(url: profileURL)
+        let authHeaderValue = "Bearer \(accessToken)"
+        profileRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: profileRequest, completionHandler: { (data, response, error) in
+            if (error != nil) {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            if let data = data {
+                let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
+                completion(profileResponse?.id)
+            }
+        })
+        task.resume()
+    }
+
+}

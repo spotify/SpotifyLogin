@@ -126,7 +126,7 @@ public class SpotifyLogin {
                     return
                 }
                 if let data = data, let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data) {
-                    self?.fetchUsername(accessToken: authResponse.access_token, completion: { (username) in
+                    SpotifyLoginNetworking.fetchUsername(accessToken: authResponse.access_token, completion: { (username) in
                         if let username = username {
                             let session = Session(userName: username, accessToken: authResponse.access_token, encryptedRefreshToken: authResponse.refresh_token, expirationDate: Date(timeIntervalSinceNow: authResponse.expires_in))
                             self?.session = session
@@ -233,30 +233,4 @@ public class SpotifyLogin {
         }
         return (code: code, error: error)
     }
-
-
-
-    private func fetchUsername(accessToken: String?, completion: @escaping (String?)->()){
-        guard let accessToken = accessToken else {
-            completion(nil)
-            return
-        }
-        let profileURL = URL(string: ProfileServiceEndpointURL)!
-        var profileRequest = URLRequest(url: profileURL)
-        let authHeaderValue = "Bearer \(accessToken)"
-        profileRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
-        let task = URLSession.shared.dataTask(with: profileRequest, completionHandler: { (data, response, error) in
-            if (error != nil) {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                return
-            }
-            if let data = data {
-                let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
-                completion(profileResponse?.id)
-            }
-        })
-        task.resume()
-    }
-}
+]}
