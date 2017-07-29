@@ -507,6 +507,7 @@
 				34BB01891F2D17CF004D796B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		34BB018A1F2D17CF004D796B /* Build configuration list for PBXNativeTarget "SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +516,7 @@
 				34BB018C1F2D17CF004D796B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

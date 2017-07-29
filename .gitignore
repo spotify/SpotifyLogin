@@ -65,3 +65,4 @@ fastlane/screenshots
 fastlane/test_output
 /.DS_Store
 /SpotifyAuth/.DS_Store
+/examples/Sample/.DS_Store
