@@ -27,9 +27,9 @@ internal struct ProfileEndpointResponse: Codable {
 
 internal class Networking {
 
-    internal class func createSession(code: String, redirectURL: URL, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
-        let requestBody = "code=\(code)&grant_type=authorization_code&redirect_uri=\(redirectURL)"
-        Networking.authRequest(requestBody: requestBody, clientSecret: clientSecret) { (response, error) in
+    internal class func createSession(code: String, redirectURL: URL, clientID: String, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
+        let requestBody = "code=\(code)&grant_type=authorization_code&redirect_uri=\(redirectURL.absoluteString)"
+        Networking.authRequest(requestBody: requestBody, clientID: clientID, clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
                 Networking.profileUsernameRequest(accessToken: response.access_token, completion: { (username) in
                     if let username = username {
@@ -47,7 +47,7 @@ internal class Networking {
         }
     }
 
-    internal class func renewSession(session: Session?, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
+    internal class func renewSession(session: Session?, clientID: String, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
         guard let session = session, let encryptedRefreshToken = session.encryptedRefreshToken else {
             DispatchQueue.main.async {
                 completion(nil, LoginError.NoSession)
@@ -56,7 +56,7 @@ internal class Networking {
         }
         let requestBody = "grant_type=refresh_token&refresh_token=\(encryptedRefreshToken)"
 
-        Networking.authRequest(requestBody: requestBody, clientSecret: clientSecret) { (response, error) in
+        Networking.authRequest(requestBody: requestBody, clientID: clientID, clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
                 let session = Session(userName: session.userName, accessToken: session.accessToken, encryptedRefreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                 DispatchQueue.main.async {
@@ -96,8 +96,8 @@ internal class Networking {
         task.resume()
     }
 
-    fileprivate class func authRequest(requestBody: String, clientSecret: String, completion: @escaping (TokenEndpointResponse?, Error?) -> ()){
-        guard let authString = clientSecret.data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
+    fileprivate class func authRequest(requestBody: String, clientID: String, clientSecret: String, completion: @escaping (TokenEndpointResponse?, Error?) -> ()){
+        guard let authString = "\(clientID):\(clientSecret)".data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
             DispatchQueue.main.async {
                 completion(nil, LoginError.ConfigurationMissing)
             }

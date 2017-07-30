@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3432C73A1F2DDFE30001E70D /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432C7391F2DDFE30001E70D /* LogInViewController.swift */; };
 		34BB016E1F2D17CF004D796B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BB016D1F2D17CF004D796B /* AppDelegate.swift */; };
 		34BB01701F2D17CF004D796B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BB016F1F2D17CF004D796B /* ViewController.swift */; };
 		34BB01731F2D17CF004D796B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34BB01711F2D17CF004D796B /* Main.storyboard */; };
@@ -63,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3432C7391F2DDFE30001E70D /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		34BB016A1F2D17CE004D796B /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34BB016D1F2D17CF004D796B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34BB016F1F2D17CF004D796B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				34BB016D1F2D17CF004D796B /* AppDelegate.swift */,
+				3432C7391F2DDFE30001E70D /* LogInViewController.swift */,
 				34BB016F1F2D17CF004D796B /* ViewController.swift */,
 				34BB01711F2D17CF004D796B /* Main.storyboard */,
 				34BB01741F2D17CF004D796B /* Assets.xcassets */,
@@ -273,6 +276,7 @@
 			files = (
 				34BB01701F2D17CF004D796B /* ViewController.swift in Sources */,
 				34BB016E1F2D17CF004D796B /* AppDelegate.swift in Sources */,
+				3432C73A1F2DDFE30001E70D /* LogInViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +371,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -418,7 +422,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -434,7 +438,7 @@
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
 				INFOPLIST_FILE = Sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SwiftLoginSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -449,7 +453,7 @@
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
 				INFOPLIST_FILE = Sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SwiftLoginSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
