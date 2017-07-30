@@ -18,7 +18,6 @@ public class SpotifyLogin {
     private var clientID: String?
     private var clientSecret: String?
     private var redirectURL: URL?
-    private var requestedScopes: [String]?
     private var _session: Session?
     private var session: Session? {
         get {
@@ -54,7 +53,7 @@ public class SpotifyLogin {
     /// - Parameter completion: Returns the auth token as a string if available and an optional error.
     public func getAccessToken(completion:@escaping (String?, Error?) -> ()) {
         // If the login object is not fully configured, return an error
-        guard clientID != nil, clientSecret != nil, redirectURL != nil else {
+        guard clientID != nil, redirectURL != nil, let clientSecret = self.clientSecret else {
             completion(nil, LoginError.ConfigurationMissing)
             return
         }
@@ -68,7 +67,7 @@ public class SpotifyLogin {
             completion(session.accessToken, nil)
             return
         } else {
-            self.renewSession(callback: { (error, session) in
+            SpotifyLoginNetworking.renewSession(session: session, clientSecret: clientSecret, completion: { (session, error) in
                 if let session = session, error == nil {
                     completion(session.accessToken, nil)
                 } else {
@@ -82,15 +81,15 @@ public class SpotifyLogin {
     /// Trigger log in flow.
     ///
     /// - Parameter viewController: The view controller that orignates the log in flow.
-    public func login(from viewController: UIViewController, scopes requestedScopes:[Scope]) {
-        self.requestedScopes = requestedScopes.map({$0.rawValue})
-        if let appAuthenticationURL = appAuthenticationURL(), UIApplication.shared.canOpenURL(appAuthenticationURL) {
+    public func login(from viewController: UIViewController, scopes:[Scope]) {
+        let scopeStrings = scopes.map({$0.rawValue})
+        if let appAuthenticationURL = appAuthenticationURL(scopes: scopeStrings), UIApplication.shared.canOpenURL(appAuthenticationURL) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(appAuthenticationURL, options: [:], completionHandler: nil)
             } else {
                 UIApplication.shared.openURL(appAuthenticationURL)
             }
-        } else if let webAuthenticationURL = webAuthenticationURL() {
+        } else if let webAuthenticationURL = webAuthenticationURL(scopes: scopeStrings) {
             viewController.definesPresentationContext = true
             let safariVC: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
        //     safariVC.delegate = viewController
@@ -101,15 +100,20 @@ public class SpotifyLogin {
         }
     }
 
-    /// Process URL and attempt to create a session.
+    /// Process URL and attempts to create a session.
     ///
     /// - Parameters:
     ///   - url: url to handle.
     ///   - completion: Returns an optional error or nil if successful.
-    public func handleURL(_ url: URL, completion: @escaping (Error?) -> ()) {
+    /// - Returns: Whether or not the URL was handled.
+    public func applicationOpenURL(_ url: URL, completion: @escaping (Error?) -> ()) -> Bool {
+        guard canHandleURL(url) else {
+            return false
+        }
+
         guard let redirectURL = self.redirectURL, let clientSecret = self.clientSecret else {
             completion(LoginError.ConfigurationMissing)
-            return
+            return false
         }
 
         let parsedURL = parse(url: url)
@@ -123,77 +127,25 @@ public class SpotifyLogin {
         } else {
             completion(LoginError.InvalidUrl)
         }
-    }
-
-    /// Check if SpotifyLogin can handle a url.
-    ///
-    /// - Parameter url: URL to process.
-    /// - Returns: Whether or not SpotifyLogin can handle a given url.
-    public func canHandleURL(_ url: URL) -> Bool {
-        guard let redirectURLString = redirectURL?.absoluteString else {
-            return false
-        }
-        return url.absoluteString.hasPrefix(redirectURLString)
+        return true
     }
 
     // MARK: Private
 
-    private func renewSession(callback: @escaping (Error?, Session?) -> ()) {
-        guard let session = self.session, let encryptedRefreshToken = session.encryptedRefreshToken else {
-            callback(LoginError.NoSession, nil)
-            return
-        }
-        let endpoint = URL(string: APITokenEndpointURL)!
-        let formDataString = "grant_type=refresh_token&refresh_token=\(encryptedRefreshToken)"
-        var urlRequest = URLRequest(url: endpoint)
-        if let authString = self.clientSecret?.data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) {
-            let authHeaderValue = "Basic \(authString)"
-            urlRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
-        }
-        urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = formDataString.data(using: .utf8)
-        urlRequest.httpMethod = "POST"
-        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { [weak self] (data, response, error) in
-            if (error != nil) {
-                DispatchQueue.main.async {
-                    callback(error, nil)
-                }
-                return
-            }
-            if let data = data, let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data) {
-                let session = Session(userName: session.userName, accessToken: session.accessToken, encryptedRefreshToken: authResponse.refresh_token, expirationDate: Date(timeIntervalSinceNow: authResponse.expires_in))
-                self?.session = session
-                DispatchQueue.main.async {
-                    callback(nil, session)
-                }
-            }
-        })
-        task.resume()
+    private func webAuthenticationURL(scopes: [String]) -> URL? {
+        return loginURL(scopes: scopes, endpoint: AuthServiceEndpointURL)
     }
 
-    private class func spotifyApplicationIsInstalled() -> Bool {
-        return UIApplication.shared.canOpenURL(URL(string: "spotify:")!)
+    private func appAuthenticationURL(scopes: [String]) -> URL? {
+        return loginURL(scopes: scopes, endpoint: Constants.AppAuthURL)
     }
 
-    private func webAuthenticationURL() -> URL? {
-        return authenticationURL(endpoint: AuthServiceEndpointURL)
-    }
-
-    private func appAuthenticationURL() -> URL? {
-        return authenticationURL(endpoint: Constants.AppAuthURL)
-    }
-
-    private func authenticationURL(endpoint: String) -> URL? {
-        return loginURL(scopes: self.requestedScopes, campaignID: Constants.AuthUTMMediumCampaignQueryValue, endpoint: endpoint)
-    }
-
-
-    private func loginURL(scopes: [String]?, responseType: String = "code", campaignID: String = Constants.AuthUTMMediumCampaignQueryValue, endpoint: String = AuthServiceEndpointURL) -> URL? {
+    private func loginURL(scopes: [String]?, endpoint: String) -> URL? {
         guard let clientID = self.clientID, let redirectURL = self.redirectURL, let scopes = scopes else {
             return nil
         }
 
-        var params = ["client_id": clientID, "redirect_uri": redirectURL.absoluteString, "response_type": responseType, "show_dialog": "true", "nosignup": "true", "nolinks": "true", "utm_source": "spotify-sdk", "utm_medium": "ios-sdk", "utm_campaign": campaignID]
+        var params = ["client_id": clientID, "redirect_uri": redirectURL.absoluteString, "response_type": "code", "show_dialog": "true", "nosignup": "true", "nolinks": "true", "utm_source": Constants.AuthUTMSourceQueryValue, "utm_medium": Constants.AuthUTMMediumCampaignQueryValue, "utm_campaign": Constants.AuthUTMMediumCampaignQueryValue]
 
         if (scopes.count > 0) {
             params["scope"] = scopes.joined(separator: " ")
@@ -220,6 +172,17 @@ public class SpotifyLogin {
             error = fragment.contains("error")
         }
         return (code: code, error: error)
+    }
+
+    /// Check if SpotifyLogin can handle a url.
+    ///
+    /// - Parameter url: URL to process.
+    /// - Returns: Whether or not SpotifyLogin can handle a given url.
+    private func canHandleURL(_ url: URL) -> Bool {
+        guard let redirectURLString = redirectURL?.absoluteString else {
+            return false
+        }
+        return url.absoluteString.hasPrefix(redirectURLString)
     }
 
 }

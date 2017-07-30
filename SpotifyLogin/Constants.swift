@@ -9,13 +9,7 @@
 import Foundation
 
 internal struct Constants{
-    static let ErrorDomain = "com.spotify.auth"
     static let AppAuthURL = "spotify-action://"
-    static let AuthJSONErrorKey = "error"
-    static let AuthJSONErrorDescriptionKey = "error_description"
-    static let AuthUTMSourceQueryKey = "utm_source"
-    static let AuthUTMMediumQueryKey = "utm_medium"
-    static let AuthUTMCampaignQueryKey = "utm_campaign"
     static let AuthUTMSourceQueryValue = "spotify-sdk"
     static let AuthUTMMediumCampaignQueryValue = "ios-sdk"
 }
