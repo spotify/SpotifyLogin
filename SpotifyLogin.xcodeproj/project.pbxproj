@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		34057DB21F2D27B8001D65AA /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34057DB11F2D27B8001D65AA /* Networking.swift */; };
+		3432C7301F2DCBDE0001E70D /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432C72F1F2DCBDE0001E70D /* Scope.swift */; };
+		3432C7321F2DCBF30001E70D /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432C7311F2DCBF30001E70D /* URLBuilder.swift */; };
 		3479D28F1EC1ADEE00FF4EE2 /* SpotifyLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3479D2851EC1ADEE00FF4EE2 /* SpotifyLogin.framework */; };
 		3479D2941EC1ADEE00FF4EE2 /* SpotifyLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2931EC1ADEE00FF4EE2 /* SpotifyLoginTests.swift */; };
 		3479D2961EC1ADEE00FF4EE2 /* SpotifyLogin.h in Headers */ = {isa = PBXBuildFile; fileRef = 3479D2881EC1ADEE00FF4EE2 /* SpotifyLogin.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		34057DB11F2D27B8001D65AA /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		3432C72F1F2DCBDE0001E70D /* Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
+		3432C7311F2DCBF30001E70D /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		3479D2851EC1ADEE00FF4EE2 /* SpotifyLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpotifyLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3479D2881EC1ADEE00FF4EE2 /* SpotifyLogin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyLogin.h; sourceTree = "<group>"; };
 		3479D2891EC1ADEE00FF4EE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,6 +64,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3432C7331F2DCF250001E70D /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				3479D2A41EC1B50900FF4EE2 /* Constants.swift */,
+				BEF4FC651EC1EE600082945B /* Keychain.swift */,
+				34057DB11F2D27B8001D65AA /* Networking.swift */,
+				BEF4FC601EC1AE810082945B /* Session.swift */,
+				3432C7311F2DCBF30001E70D /* URLBuilder.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
 		3479D27B1EC1ADEE00FF4EE2 = {
 			isa = PBXGroup;
 			children = (
@@ -81,13 +97,11 @@
 		3479D2871EC1ADEE00FF4EE2 /* SpotifyLogin */ = {
 			isa = PBXGroup;
 			children = (
-				3479D2881EC1ADEE00FF4EE2 /* SpotifyLogin.h */,
+				3432C7331F2DCF250001E70D /* Internal */,
 				3479D2891EC1ADEE00FF4EE2 /* Info.plist */,
+				3432C72F1F2DCBDE0001E70D /* Scope.swift */,
+				3479D2881EC1ADEE00FF4EE2 /* SpotifyLogin.h */,
 				3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */,
-				34057DB11F2D27B8001D65AA /* Networking.swift */,
-				BEF4FC601EC1AE810082945B /* Session.swift */,
-				3479D2A41EC1B50900FF4EE2 /* Constants.swift */,
-				BEF4FC651EC1EE600082945B /* Keychain.swift */,
 			);
 			path = SpotifyLogin;
 			sourceTree = "<group>";
@@ -214,6 +228,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3432C7301F2DCBDE0001E70D /* Scope.swift in Sources */,
+				3432C7321F2DCBF30001E70D /* URLBuilder.swift in Sources */,
 				BEF4FC611EC1AE810082945B /* Session.swift in Sources */,
 				34057DB21F2D27B8001D65AA /* Networking.swift in Sources */,
 				BEF4FC661EC1EE600082945B /* Keychain.swift in Sources */,

@@ -18,6 +18,7 @@ public class SpotifyLogin {
     private var clientID: String?
     private var clientSecret: String?
     private var redirectURL: URL?
+
     private var _session: Session?
     private var session: Session? {
         get {
@@ -32,6 +33,8 @@ public class SpotifyLogin {
         }
     }
 
+    private var urlBuilder: URLBuilder?
+
     // MARK: Interface
 
     /// Configure login object.
@@ -45,6 +48,7 @@ public class SpotifyLogin {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
+        self.urlBuilder = URLBuilder(clientID: clientID, clientSecret: clientSecret, redirectURL: redirectURL)
     }
 
 
@@ -67,7 +71,7 @@ public class SpotifyLogin {
             completion(session.accessToken, nil)
             return
         } else {
-            SpotifyLoginNetworking.renewSession(session: session, clientSecret: clientSecret, completion: { (session, error) in
+            Networking.renewSession(session: session, clientSecret: clientSecret, completion: { (session, error) in
                 if let session = session, error == nil {
                     completion(session.accessToken, nil)
                 } else {
@@ -82,14 +86,13 @@ public class SpotifyLogin {
     ///
     /// - Parameter viewController: The view controller that orignates the log in flow.
     public func login(from viewController: UIViewController, scopes:[Scope]) {
-        let scopeStrings = scopes.map({$0.rawValue})
-        if let appAuthenticationURL = appAuthenticationURL(scopes: scopeStrings), UIApplication.shared.canOpenURL(appAuthenticationURL) {
+        if let appAuthenticationURL = urlBuilder?.authenticationURL(type: .App, scopes: scopes), UIApplication.shared.canOpenURL(appAuthenticationURL) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(appAuthenticationURL, options: [:], completionHandler: nil)
             } else {
                 UIApplication.shared.openURL(appAuthenticationURL)
             }
-        } else if let webAuthenticationURL = webAuthenticationURL(scopes: scopeStrings) {
+        } else if let webAuthenticationURL = urlBuilder?.authenticationURL(type: .Web, scopes: scopes) {
             viewController.definesPresentationContext = true
             let safariVC: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
        //     safariVC.delegate = viewController
@@ -107,18 +110,19 @@ public class SpotifyLogin {
     ///   - completion: Returns an optional error or nil if successful.
     /// - Returns: Whether or not the URL was handled.
     public func applicationOpenURL(_ url: URL, completion: @escaping (Error?) -> ()) -> Bool {
-        guard canHandleURL(url) else {
-            return false
-        }
 
-        guard let redirectURL = self.redirectURL, let clientSecret = self.clientSecret else {
+        guard let urlBuilder = self.urlBuilder, let redirectURL = self.redirectURL, let clientSecret = self.clientSecret else {
             completion(LoginError.ConfigurationMissing)
             return false
         }
 
-        let parsedURL = parse(url: url)
+        guard urlBuilder.canHandleURL(url) else {
+            return false
+        }
+
+        let parsedURL = urlBuilder.parse(url: url)
         if let code = parsedURL.code, !parsedURL.error  {
-            SpotifyLoginNetworking.createSession(code: code, redirectURL: redirectURL, clientSecret: clientSecret, completion: { [weak self] (session, error) in
+            Networking.createSession(code: code, redirectURL: redirectURL, clientSecret: clientSecret, completion: { [weak self] (session, error) in
                 if error == nil {
                     self?.session = session
                 }
@@ -130,59 +134,12 @@ public class SpotifyLogin {
         return true
     }
 
-    // MARK: Private
+}
 
-    private func webAuthenticationURL(scopes: [String]) -> URL? {
-        return loginURL(scopes: scopes, endpoint: AuthServiceEndpointURL)
-    }
-
-    private func appAuthenticationURL(scopes: [String]) -> URL? {
-        return loginURL(scopes: scopes, endpoint: Constants.AppAuthURL)
-    }
-
-    private func loginURL(scopes: [String]?, endpoint: String) -> URL? {
-        guard let clientID = self.clientID, let redirectURL = self.redirectURL, let scopes = scopes else {
-            return nil
-        }
-
-        var params = ["client_id": clientID, "redirect_uri": redirectURL.absoluteString, "response_type": "code", "show_dialog": "true", "nosignup": "true", "nolinks": "true", "utm_source": Constants.AuthUTMSourceQueryValue, "utm_medium": Constants.AuthUTMMediumCampaignQueryValue, "utm_campaign": Constants.AuthUTMMediumCampaignQueryValue]
-
-        if (scopes.count > 0) {
-            params["scope"] = scopes.joined(separator: " ")
-        }
-
-        let pairs = params.map{"\($0)=\($1)"}
-        let pairsString = pairs.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ??  String()
-
-        let loginPageURLString = "\(endpoint)authorize?\(pairsString)"
-        return URL(string: loginPageURLString)
-    }
-
-    private func parse(url: URL) -> (code: String?, error: Bool) {
-        var code: String?
-        var error = false
-        if let fragment = url.query {
-            let fragmentItems = fragment.components(separatedBy: "&").reduce([String:String]()) { (dict, fragmentItem) in
-                var mutableDict = dict
-                let splitValue = fragmentItem.components(separatedBy: "=")
-                mutableDict[splitValue[0]] = splitValue[1]
-                return mutableDict
-            }
-            code = fragmentItems["code"]
-            error = fragment.contains("error")
-        }
-        return (code: code, error: error)
-    }
-
-    /// Check if SpotifyLogin can handle a url.
-    ///
-    /// - Parameter url: URL to process.
-    /// - Returns: Whether or not SpotifyLogin can handle a given url.
-    private func canHandleURL(_ url: URL) -> Bool {
-        guard let redirectURLString = redirectURL?.absoluteString else {
-            return false
-        }
-        return url.absoluteString.hasPrefix(redirectURLString)
-    }
-
+public enum LoginError: Error {
+    case General
+    case ConfigurationMissing
+    case RefreshFailed
+    case NoSession
+    case InvalidUrl
 }

@@ -21,7 +21,7 @@ internal class KeychainService {
         do {
             let encodedSession = try PropertyListEncoder().encode(session)
             let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
-                                                kSecAttrServiceValue: "com.spotify.SpotifyLogin",
+                                                kSecAttrServiceValue: Constants.KeychainServiceValue,
                                                 kSecAttrAccountValue: session.userName,
                                                 kSecValueDataValue: encodedSession]
             UserDefaults.standard.set(session.userName, forKey: "userName")
@@ -36,7 +36,7 @@ internal class KeychainService {
         }
 
         let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
-                                            kSecAttrServiceValue: "com.spotify.SpotifyLogin",
+                                            kSecAttrServiceValue: Constants.KeychainServiceValue,
                                             kSecAttrAccountValue: userName,
                                             kSecReturnDataValue: kCFBooleanTrue,
                                             kSecMatchLimitValue: kSecMatchLimitOneValue]

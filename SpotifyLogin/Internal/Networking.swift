@@ -10,7 +10,6 @@ import Foundation
 
 //MARK: Constants
 
-internal let AuthServiceEndpointURL = "https://accounts.spotify.com/"
 internal let APITokenEndpointURL = "https://accounts.spotify.com/api/token"
 internal let ProfileServiceEndpointURL = "https://api.spotify.com/v1/me"
 
@@ -26,13 +25,13 @@ internal struct ProfileEndpointResponse: Codable {
     let id: String
 }
 
-internal class SpotifyLoginNetworking {
+internal class Networking {
 
     internal class func createSession(code: String, redirectURL: URL, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
         let requestBody = "code=\(code)&grant_type=authorization_code&redirect_uri=\(redirectURL)"
-        SpotifyLoginNetworking.authRequest(requestBody: requestBody, clientSecret: clientSecret) { (response, error) in
+        Networking.authRequest(requestBody: requestBody, clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
-                SpotifyLoginNetworking.profileUsernameRequest(accessToken: response.access_token, completion: { (username) in
+                Networking.profileUsernameRequest(accessToken: response.access_token, completion: { (username) in
                     if let username = username {
                         let session = Session(userName: username, accessToken: response.access_token, encryptedRefreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                         DispatchQueue.main.async {
@@ -57,7 +56,7 @@ internal class SpotifyLoginNetworking {
         }
         let requestBody = "grant_type=refresh_token&refresh_token=\(encryptedRefreshToken)"
 
-        SpotifyLoginNetworking.authRequest(requestBody: requestBody, clientSecret: clientSecret) { (response, error) in
+        Networking.authRequest(requestBody: requestBody, clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
                 let session = Session(userName: session.userName, accessToken: session.accessToken, encryptedRefreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                 DispatchQueue.main.async {

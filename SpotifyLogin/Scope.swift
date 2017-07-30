@@ -1,18 +1,12 @@
 //
-//  Constants.swift
+//  Scopes.swift
 //  SpotifyLogin
 //
-//  Created by Roy Marmelstein on 2017-05-09.
+//  Created by Roy Marmelstein on 2017-07-30.
 //  Copyright © 2017 Spotify. All rights reserved.
 //
 
 import Foundation
-
-internal struct Constants{
-    static let AppAuthURL = "spotify-action://"
-    static let AuthUTMSourceQueryValue = "spotify-sdk"
-    static let AuthUTMMediumCampaignQueryValue = "ios-sdk"
-}
 
 public enum Scope: String {
     case Streaming = "streaming"
@@ -28,12 +22,4 @@ public enum Scope: String {
     case UserReadTop = "user-top-read"
     case UserReadBirthDate = "user-read-birthdate"
     case UserReadEmail = "user-read-email"
-}
-
-public enum LoginError: Error {
-    case General
-    case ConfigurationMissing
-    case RefreshFailed
-    case NoSession
-    case InvalidUrl
 }
