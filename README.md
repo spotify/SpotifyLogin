@@ -29,15 +29,15 @@ Add the app's identifer as the **Identifier** and the redirect url scheme in **U
 Add the following to your app delegate:
 
 ```swift
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        SpotifyLogin.shared.configure(clientID: <#T##String#>, clientSecret: <#T##String#>, redirectURL: <#T##URL#>)
-        return true
-    }
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    SpotifyLogin.shared.configure(clientID: <#T##String#>, clientSecret: <#T##String#>, redirectURL: <#T##URL#>)
+    return true
+}
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        let handled = SpotifyLogin.shared.applicationOpenURL(url) { (error) in }
-        return handled
-    }
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    let handled = SpotifyLogin.shared.applicationOpenURL(url) { (error) in }
+    return handled
+}
 ```
 
 ### Check if a user is logged in.
@@ -45,11 +45,11 @@ Add the following to your app delegate:
 You can retrieve an access token and check if a user is logged in by:
 
 ```swift
-    SpotifyLogin.shared.getAccessToken { (token, error) in
-        if error != nil {
-            // User is not logged in, show log in flow.
-        }
+SpotifyLogin.shared.getAccessToken { (token, error) in
+    if error != nil {
+        // User is not logged in, show log in flow.
     }
+}
 ```
 
 This also automatically takes care of renewing expired tokens. 
@@ -59,7 +59,7 @@ This also automatically takes care of renewing expired tokens.
 To log in:
 
 ```swift
-    SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
+SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
 ```
 
 The scopes define the set of permissions your app will be able to use. For more information about available scopes, see [Scopes Documentation](https://developer.spotify.com/web-api/using-scopes/)
@@ -67,7 +67,7 @@ The scopes define the set of permissions your app will be able to use. For more 
 To log out:
 
 ```swift
-    SpotifyLogin.shared.logout()
+SpotifyLogin.shared.logout()
 ```
 
 ### Update UI after successful log in.
@@ -75,7 +75,7 @@ To log out:
 The log in flow is completed in applicationOpenURL. To respond to a successful log in, you can add your own code in the completion handler or respond to the SpotifyLoginSuccessful notification: 
 
 ```swift
-    NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful), name: .SpotifyLoginSuccessful, object: nil)
+NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful), name: .SpotifyLoginSuccessful, object: nil)
 ```
 
 ## Setting up
