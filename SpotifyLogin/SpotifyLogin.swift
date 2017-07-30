@@ -14,6 +14,8 @@ public class SpotifyLogin {
 
     /// Shared instance.
     public static let shared = SpotifyLogin()
+
+    /// The userName for the current session.
     public var userName: String? {
         get {
             return self.session?.userName
@@ -173,19 +175,19 @@ public class SpotifyLogin {
 }
 
 /// Login error
-///
-/// - General: Generic error message.
-/// - ConfigurationMissing: Spotify Login is not fully configured. Use the configuration function.
-/// - NoSession: There is no valid session. Use the login function.
-/// - InvalidUrl: The url provided to the app can not be handled or parsed.
 public enum LoginError: Error {
+    /// Generic error message.
     case General
+    /// Spotify Login is not fully configured. Use the configuration function.
     case ConfigurationMissing
+    /// There is no valid session. Use the login function.
     case NoSession
+    /// The url provided to the app can not be handled or parsed.
     case InvalidUrl
 }
 
 public extension Notification.Name {
+    /// A Notification that is emitted by SpotifyLogin after a successful login. Can be used to update the UI.
     public static let SpotifyLoginSuccessful = Notification.Name("SpotifyLoginSuccessful")
 }
 
