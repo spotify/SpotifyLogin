@@ -59,25 +59,32 @@ class SpotifyLoginTests: XCTestCase {
 
     func testGetToken(){
         let emptySessionExpectation = expectation(description: "token expectation")
-        SpotifyLogin.shared.configure(clientID: "clientID", clientSecret: "clientSecret", redirectURL: URL(string:"spotify.com")!)
         SpotifyLogin.shared.session = nil
         SpotifyLogin.shared.getAccessToken { (token, error) in
             XCTAssertNotNil(error)
             XCTAssertNil(token)
             emptySessionExpectation.fulfill()
         }
-        waitForExpectations(timeout: 1.0, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
 
-        let validSessionExpectation = expectation(description: "token expectation")
+        let unconfiguredSessionExpectation = expectation(description: "token expectation")
         let testToken = "fakeToken"
         let tokenSession = Session(userName: "testUsername", accessToken: testToken, encryptedRefreshToken: "encryptedRefreshToken", expirationDate: Date.distantFuture)
         SpotifyLogin.shared.session = tokenSession
+        SpotifyLogin.shared.getAccessToken { (token, error) in
+            XCTAssertNotNil(error)
+            unconfiguredSessionExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 0.5, handler: nil)
+
+        let validSessionExpectation = expectation(description: "configuration expectation")
+        SpotifyLogin.shared.configure(clientID: "clientID", clientSecret: "clientSecret", redirectURL: URL(string:"spotify.com")!)
         SpotifyLogin.shared.getAccessToken { (token, error) in
             XCTAssertNil(error)
             XCTAssertEqual(token, testToken)
             validSessionExpectation.fulfill()
         }
-        waitForExpectations(timeout: 1.0, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
 
     func testLogout(){

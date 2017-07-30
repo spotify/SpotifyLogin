@@ -72,7 +72,7 @@ internal class Networking {
 
     //MARK: Private
 
-    fileprivate class func profileUsernameRequest(accessToken: String?, completion: @escaping (String?)->()){
+    internal class func profileUsernameRequest(accessToken: String?, completion: @escaping (String?)->()){
         guard let accessToken = accessToken else {
             completion(nil)
             return
@@ -96,7 +96,7 @@ internal class Networking {
         task.resume()
     }
 
-    fileprivate class func authRequest(requestBody: String, clientID: String, clientSecret: String, completion: @escaping (TokenEndpointResponse?, Error?) -> ()){
+    internal class func authRequest(requestBody: String, clientID: String, clientSecret: String, completion: @escaping (TokenEndpointResponse?, Error?) -> ()){
         guard let authString = "\(clientID):\(clientSecret)".data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
             DispatchQueue.main.async {
                 completion(nil, LoginError.ConfigurationMissing)
