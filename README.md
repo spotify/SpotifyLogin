@@ -42,11 +42,11 @@ Add the following to your app delegate:
 You can retrieve an access token and check if a user is logged in by:
 
 ```swift
-        SpotifyLogin.shared.getAccessToken { [weak self](token, error) in
-            if error != nil {
-	            // User is not logged in, show log in flow.
-            }
+    SpotifyLogin.shared.getAccessToken { (token, error) in
+        if error != nil {
+            // User is not logged in, show log in flow.
         }
+    }
 ```
 
 This also automatically takes care of renewing expired tokens. 
@@ -56,7 +56,7 @@ This also automatically takes care of renewing expired tokens.
 To log in:
 
 ```swift
-        SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .UserReadTop, .PlaylistReadPrivate, .UserLibraryRead])
+    SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
 ```
 
 The scopes define the set of permissions your app will be able to use. For more information about available scopes, see [Scopes Documentation](https://developer.spotify.com/web-api/using-scopes/)
@@ -64,9 +64,41 @@ The scopes define the set of permissions your app will be able to use. For more 
 To log out:
 
 ```swift
-        SpotifyLogin.shared.logout()
+    SpotifyLogin.shared.logout()
 ```
 
+### Update UI after successful log in.
+
+The log in flow is completed in applicationOpenURL. To respond to a successful log in, you can add your own code in the completion handler or respond to the SpotifyLoginSuccessful notification: 
+
+```swift
+    NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful), name: .SpotifyLoginSuccessful, object: nil)
+```
+
+## Setting up
+
+### Setting up with [CocoaPods](http://cocoapods.org/?q=SpotifyLogin)
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+pod 'SpotifyLogin', '~> 0.1'
+```
+
+### Setting up with Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that automates the process of adding frameworks to your Cocoa application.
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate SpotifyLogin into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "spotify/SpotifyLogin"
+```
 
 ## Additional information
 
