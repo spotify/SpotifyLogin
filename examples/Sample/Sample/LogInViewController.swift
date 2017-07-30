@@ -8,9 +8,8 @@
 
 import UIKit
 import SpotifyLogin
-import SafariServices
 
-class LogInViewController: UIViewController, SFSafariViewControllerDelegate {
+class LogInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +22,6 @@ class LogInViewController: UIViewController, SFSafariViewControllerDelegate {
 
     @objc func loginSuccessful() {
         self.navigationController?.popViewController(animated: true)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @IBAction func didTapLogIn(_ sender: Any) {

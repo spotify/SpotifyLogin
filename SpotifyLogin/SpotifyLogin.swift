@@ -38,6 +38,8 @@ public class SpotifyLogin {
         }
     }
 
+    weak private var safariVC: SFSafariViewController?
+
 
     private var urlBuilder: URLBuilder?
 
@@ -91,7 +93,7 @@ public class SpotifyLogin {
     /// Trigger log in flow.
     ///
     /// - Parameter viewController: The view controller that orignates the log in flow.
-    public func login(from viewController: (UIViewController & SFSafariViewControllerDelegate), scopes:[Scope]) {
+    public func login(from viewController: (UIViewController), scopes:[Scope]) {
         if let appAuthenticationURL = urlBuilder?.authenticationURL(type: .App, scopes: scopes), UIApplication.shared.canOpenURL(appAuthenticationURL) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(appAuthenticationURL, options: [:], completionHandler: nil)
@@ -100,10 +102,11 @@ public class SpotifyLogin {
             }
         } else if let webAuthenticationURL = urlBuilder?.authenticationURL(type: .Web, scopes: scopes) {
             viewController.definesPresentationContext = true
-            let safariVC: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
-            safariVC.modalPresentationStyle = .pageSheet
-            safariVC.delegate = viewController
-            viewController.present(safariVC, animated: true, completion: nil)
+            let safariViewController: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
+            safariViewController.modalPresentationStyle = .pageSheet
+            safariViewController.delegate = SafariDelegate()
+            viewController.present(safariViewController, animated: true, completion: nil)
+            self.safariVC = safariViewController
         } else {
             assertionFailure("Unable to login.")
         }
@@ -144,6 +147,8 @@ public class SpotifyLogin {
             }
             return false
         }
+
+        self.safariVC?.dismiss(animated: true, completion: nil)
 
         let parsedURL = urlBuilder.parse(url: url)
         if let code = parsedURL.code, !parsedURL.error  {

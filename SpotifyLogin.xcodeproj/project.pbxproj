@@ -15,6 +15,7 @@
 		3479D2961EC1ADEE00FF4EE2 /* SpotifyLogin.h in Headers */ = {isa = PBXBuildFile; fileRef = 3479D2881EC1ADEE00FF4EE2 /* SpotifyLogin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3479D2A31EC1B00B00FF4EE2 /* SpotifyLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */; };
 		3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A41EC1B50900FF4EE2 /* Constants.swift */; };
+		34AB98631F2DEDD300FE5F3B /* SafariDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */; };
 		BEF4FC611EC1AE810082945B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC601EC1AE810082945B /* Session.swift */; };
 		BEF4FC661EC1EE600082945B /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC651EC1EE600082945B /* Keychain.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 		3479D2951EC1ADEE00FF4EE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyLogin.swift; sourceTree = "<group>"; };
 		3479D2A41EC1B50900FF4EE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariDelegate.swift; sourceTree = "<group>"; };
 		BEF4FC601EC1AE810082945B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		BEF4FC651EC1EE600082945B /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +74,7 @@
 				34057DB11F2D27B8001D65AA /* Networking.swift */,
 				BEF4FC601EC1AE810082945B /* Session.swift */,
 				3432C7311F2DCBF30001E70D /* URLBuilder.swift */,
+				34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34AB98631F2DEDD300FE5F3B /* SafariDelegate.swift in Sources */,
 				3432C7301F2DCBDE0001E70D /* Scope.swift in Sources */,
 				3432C7321F2DCBF30001E70D /* URLBuilder.swift in Sources */,
 				BEF4FC611EC1AE810082945B /* Session.swift in Sources */,
