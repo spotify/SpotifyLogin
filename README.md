@@ -18,7 +18,10 @@ Set up SwiftLogin using any of the methods detailed below (Cocoapods / Carthage 
 
 ### Set up info.plist
 
-Under Target/info, create new URL type.
+In Xcode, go to your app's target and select the **Info** tab. At the bottom, of the screen you will find **URL Types**, expand the list and create a new one.
+
+![Set up info.plist](https://ghe.spotify.net/storage/user/2251/files/0361fde4-752d-11e7-8a30-5de95256436a)
+
 Add the app's identifer as the **Identifier** and the redirect url scheme in **URL schemes**.
 
 ### Set up your AppDelegate
