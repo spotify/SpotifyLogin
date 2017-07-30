@@ -424,9 +424,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
-				INFOPLIST_FILE = SpotifyAuthTests/Info.plist;
+				INFOPLIST_FILE = SpotifyLoginTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyAuthTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyLoginTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -437,9 +437,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 2FNC3A47ZF;
-				INFOPLIST_FILE = SpotifyAuthTests/Info.plist;
+				INFOPLIST_FILE = SpotifyLoginTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyAuthTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spotify.SpotifyLoginTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

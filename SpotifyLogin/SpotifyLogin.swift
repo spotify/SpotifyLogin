@@ -26,8 +26,8 @@ public class SpotifyLogin {
     private var clientSecret: String?
     private var redirectURL: URL?
 
-    private var _session: Session?
-    private var session: Session? {
+    internal var _session: Session?
+    internal var session: Session? {
         get {
             if _session == nil {
                 return KeychainService.loadSession()

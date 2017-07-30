@@ -16,7 +16,7 @@ internal class URLBuilder {
 
     // MARK: Lifecycle
 
-    init(clientID: String, clientSecret: String, redirectURL: URL) {
+    internal init(clientID: String, clientSecret: String, redirectURL: URL) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
@@ -53,6 +53,9 @@ internal class URLBuilder {
             }
             code = fragmentItems["code"]
             error = fragment.contains("error")
+        }
+        if !error && code == nil {
+            error = true
         }
         return (code: code, error: error)
     }
