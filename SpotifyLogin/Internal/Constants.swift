@@ -11,5 +11,6 @@ import Foundation
 internal struct Constants{
     static let AuthUTMSourceQueryValue = "spotify-sdk"
     static let AuthUTMMediumCampaignQueryValue = "ios-sdk"
+    static let KeychainUsernameKey = "SpotifyUsername"
     static let KeychainServiceValue = "com.spotify.SpotifyLogin"
 }

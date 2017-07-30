@@ -24,14 +24,14 @@ internal class KeychainService {
                                                 kSecAttrServiceValue: Constants.KeychainServiceValue,
                                                 kSecAttrAccountValue: session.userName,
                                                 kSecValueDataValue: encodedSession]
-            UserDefaults.standard.set(session.userName, forKey: "userName")
+            UserDefaults.standard.set(session.userName, forKey: Constants.KeychainUsernameKey)
             SecItemDelete(keychainQuery as CFDictionary)
             SecItemAdd(keychainQuery as CFDictionary, nil)
         } catch {}
     }
 
     internal class func loadSession() -> Session? {
-        guard let userName = UserDefaults.standard.value(forKey: "userName") else {
+        guard let userName = UserDefaults.standard.value(forKey: Constants.KeychainUsernameKey) else {
             return nil
         }
 

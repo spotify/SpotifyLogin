@@ -95,12 +95,26 @@ public class SpotifyLogin {
         } else if let webAuthenticationURL = urlBuilder?.authenticationURL(type: .Web, scopes: scopes) {
             viewController.definesPresentationContext = true
             let safariVC: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
-       //     safariVC.delegate = viewController
             safariVC.modalPresentationStyle = .pageSheet
             viewController.present(safariVC, animated: true, completion: nil)
         } else {
             assertionFailure("Unable to login.")
         }
+    }
+
+
+    /// Log out of current session.
+    public func logout() {
+        if let userName = UserDefaults.standard.value(forKey: Constants.KeychainUsernameKey) else {
+            let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
+                                                kSecAttrServiceValue: Constants.KeychainServiceValue,
+                                                kSecAttrAccountValue: userName,
+                                                kSecReturnDataValue: kCFBooleanTrue,
+                                                kSecMatchLimitValue: kSecMatchLimitOneValue]
+            SecItemDelete(keychainQuery as CFDictionary)
+        }
+        UserDefaults.standard.removeObject(forKey: Constants.KeychainUsernameKey)
+        self.session = nil
     }
 
     /// Process URL and attempts to create a session.
@@ -110,7 +124,6 @@ public class SpotifyLogin {
     ///   - completion: Returns an optional error or nil if successful.
     /// - Returns: Whether or not the URL was handled.
     public func applicationOpenURL(_ url: URL, completion: @escaping (Error?) -> ()) -> Bool {
-
         guard let urlBuilder = self.urlBuilder, let redirectURL = self.redirectURL, let clientSecret = self.clientSecret else {
             completion(LoginError.ConfigurationMissing)
             return false
