@@ -8,9 +8,9 @@ Usage of this Framework is bound under the [Developer Terms of Use](https://deve
 ### Pre-requisites
 You will need to register your app in the [Developer Portal](https://developer.spotify.com/my-applications/#!/applications).
 
-To proceed, you will need a unique redirect url, a client ID and a client secret. 
+Make sure to use a unique redirect url and to supply the bundle ID from your app.
 
-Make sure to put in your bundle ID from your app.
+After registering, you will receive a client ID and a client secret. 
 
 ### Set up SwiftLogin
 
@@ -19,7 +19,7 @@ Set up SwiftLogin using any of the methods detailed below (Cocoapods / Carthage 
 ### Set up info.plist
 
 Under Target/info, create new URL type.
-Add the app's identifer as the *Identifier* and the redirect url scheme in *URL schemes*.
+Add the app's identifer as the **Identifier** and the redirect url scheme in **URL schemes**.
 
 ### Set up your AppDelegate
 
