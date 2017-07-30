@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/marmelroy/SpotifyLogin.svg?branch=master)](https://travis-ci.org/spotify/SpotifyLogin)
+[![Version](http://img.shields.io/cocoapods/v/SpotifyLogin.svg)](http://cocoapods.org/?q=SpotifyLogin)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 # SpotifyLogin
 SpotifyLogin is a Swift 4 Framework for authenticating with the Spotify API.
 
