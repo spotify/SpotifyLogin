@@ -117,6 +117,7 @@ public class SpotifyLogin {
         }
 
         guard urlBuilder.canHandleURL(url) else {
+            completion(LoginError.InvalidUrl)
             return false
         }
 
@@ -136,10 +137,15 @@ public class SpotifyLogin {
 
 }
 
+/// Login error
+///
+/// - General: Generic error message.
+/// - ConfigurationMissing: Spotify Login is not fully configured. Use the configuration function.
+/// - NoSession: There is no valid session. Use the login function.
+/// - InvalidUrl: The url provided to the app can not be handled or parsed.
 public enum LoginError: Error {
     case General
     case ConfigurationMissing
-    case RefreshFailed
     case NoSession
     case InvalidUrl
 }
