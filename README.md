@@ -1,3 +1,5 @@
+![SpotifyLogin - Swift 4 Framework for authenticating with the Spotify API ](https://ghe.spotify.net/storage/user/2251/files/77dad784-762e-11e7-92cf-a6ac046392cc)
+
 [![Build Status](https://travis-ci.org/marmelroy/SpotifyLogin.svg?branch=master)](https://travis-ci.org/spotify/SpotifyLogin)
 [![Version](http://img.shields.io/cocoapods/v/SpotifyLogin.svg)](http://cocoapods.org/?q=SpotifyLogin)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
