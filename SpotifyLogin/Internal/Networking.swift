@@ -39,7 +39,7 @@ internal class Networking {
             if let response = response, error == nil {
                 Networking.profileUsernameRequest(accessToken: response.access_token, completion: { (username) in
                     if let username = username {
-                        let session = Session(userName: username, accessToken: response.access_token, encryptedRefreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
+                        let session = Session(userName: username, accessToken: response.access_token, refreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                         DispatchQueue.main.async {
                             completion(session, nil)
                         }
@@ -54,17 +54,17 @@ internal class Networking {
     }
 
     internal class func renewSession(session: Session?, clientID: String, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
-        guard let session = session, let encryptedRefreshToken = session.encryptedRefreshToken else {
+        guard let session = session, let refreshToken = session.refreshToken else {
             DispatchQueue.main.async {
                 completion(nil, LoginError.NoSession)
             }
             return
         }
-        let requestBody = "grant_type=refresh_token&refresh_token=\(encryptedRefreshToken)"
+        let requestBody = "grant_type=refresh_token&refresh_token=\(refreshToken)"
 
         Networking.authRequest(requestBody: requestBody, clientID: clientID, clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
-                let session = Session(userName: session.userName, accessToken: session.accessToken, encryptedRefreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
+                let session = Session(userName: session.userName, accessToken: session.accessToken, refreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                 DispatchQueue.main.async {
                     completion(session, nil)
                 }

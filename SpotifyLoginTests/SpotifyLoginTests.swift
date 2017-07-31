@@ -44,15 +44,15 @@ class SpotifyLoginTests: XCTestCase {
     }
 
     func testSessionValid(){
-        let validSession = Session(userName: "userName", accessToken: "accessToken", encryptedRefreshToken: "encryptedRefreshToken", expirationDate: Date(timeIntervalSinceNow: 100))
+        let validSession = Session(userName: "userName", accessToken: "accessToken", refreshToken: "refreshToken", expirationDate: Date(timeIntervalSinceNow: 100))
         XCTAssertTrue(validSession.isValid())
-        let inalidSession = Session(userName: "userName", accessToken: "accessToken", encryptedRefreshToken: "encryptedRefreshToken", expirationDate: Date(timeIntervalSinceNow: -100))
+        let inalidSession = Session(userName: "userName", accessToken: "accessToken", refreshToken: "refreshToken", expirationDate: Date(timeIntervalSinceNow: -100))
         XCTAssertFalse(inalidSession.isValid())
     }
 
     func testUsername(){
         let testUsername = "fakeUser"
-        let session = Session(userName: testUsername, accessToken: "accessToken", encryptedRefreshToken: "encryptedRefreshToken", expirationDate: Date())
+        let session = Session(userName: testUsername, accessToken: "accessToken", refreshToken: "refreshToken", expirationDate: Date())
         SpotifyLogin.shared.session = session
         XCTAssertEqual(SpotifyLogin.shared.userName, testUsername)
     }
@@ -69,7 +69,7 @@ class SpotifyLoginTests: XCTestCase {
 
         let unconfiguredSessionExpectation = expectation(description: "token expectation")
         let testToken = "fakeToken"
-        let tokenSession = Session(userName: "testUsername", accessToken: testToken, encryptedRefreshToken: "encryptedRefreshToken", expirationDate: Date.distantFuture)
+        let tokenSession = Session(userName: "testUsername", accessToken: testToken, refreshToken: "refreshToken", expirationDate: Date.distantFuture)
         SpotifyLogin.shared.session = tokenSession
         SpotifyLogin.shared.getAccessToken { (token, error) in
             XCTAssertNotNil(error)
@@ -88,7 +88,7 @@ class SpotifyLoginTests: XCTestCase {
     }
 
     func testLogout(){
-        let testSession = Session(userName: "testUsername", accessToken: "testToken", encryptedRefreshToken: "encryptedRefreshToken", expirationDate: Date.distantFuture)
+        let testSession = Session(userName: "testUsername", accessToken: "testToken", refreshToken: "refreshToken", expirationDate: Date.distantFuture)
         SpotifyLogin.shared.session = testSession
         SpotifyLogin.shared.logout()
         XCTAssertNil(SpotifyLogin.shared.session)

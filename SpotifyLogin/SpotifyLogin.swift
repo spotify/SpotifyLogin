@@ -59,7 +59,6 @@ public class SpotifyLogin {
     ///   - clientID: App's client id.
     ///   - clientSecret: App's client secret.
     ///   - redirectURL: App's redirect url.
-    ///   - requestedScopes: Requested scopes.
     public func configure(clientID: String, clientSecret: String, redirectURL: URL) {
         self.clientID = clientID
         self.clientSecret = clientSecret
