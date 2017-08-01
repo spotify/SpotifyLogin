@@ -14,12 +14,12 @@
 
 import Foundation
 
-//MARK: Constants
+// MARK: Constants
 
-internal let APITokenEndpointURL = "https://accounts.spotify.com/api/token"
-internal let ProfileServiceEndpointURL = "https://api.spotify.com/v1/me"
+internal let apiTokenEndpointURL = "https://accounts.spotify.com/api/token"
+internal let profileServiceEndpointURL = "https://api.spotify.com/v1/me"
 
-//MARK: API responses
+// MARK: API responses
 
 internal struct TokenEndpointResponse: Codable {
     let access_token: String
@@ -33,13 +33,22 @@ internal struct ProfileEndpointResponse: Codable {
 
 internal class Networking {
 
-    internal class func createSession(code: String, redirectURL: URL, clientID: String, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
+    internal class func createSession(code: String,
+                                      redirectURL: URL,
+                                      clientID: String,
+                                      clientSecret: String,
+                                      completion: @escaping (Session?, Error?) -> Void) {
         let requestBody = "code=\(code)&grant_type=authorization_code&redirect_uri=\(redirectURL.absoluteString)"
-        Networking.authRequest(requestBody: requestBody, clientID: clientID, clientSecret: clientSecret) { (response, error) in
+        Networking.authRequest(requestBody: requestBody,
+                               clientID: clientID,
+                               clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
                 Networking.profileUsernameRequest(accessToken: response.access_token, completion: { (username) in
                     if let username = username {
-                        let session = Session(userName: username, accessToken: response.access_token, refreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
+                        let session = Session(userName: username,
+                                              accessToken: response.access_token,
+                                              refreshToken: response.refresh_token,
+                                              expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                         DispatchQueue.main.async {
                             completion(session, nil)
                         }
@@ -53,7 +62,10 @@ internal class Networking {
         }
     }
 
-    internal class func renewSession(session: Session?, clientID: String, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
+    internal class func renewSession(session: Session?,
+                                     clientID: String,
+                                     clientSecret: String,
+                                     completion: @escaping (Session?, Error?) -> Void) {
         guard let session = session, let refreshToken = session.refreshToken else {
             DispatchQueue.main.async {
                 completion(nil, LoginError.noSession)
@@ -62,9 +74,14 @@ internal class Networking {
         }
         let requestBody = "grant_type=refresh_token&refresh_token=\(refreshToken)"
 
-        Networking.authRequest(requestBody: requestBody, clientID: clientID, clientSecret: clientSecret) { (response, error) in
+        Networking.authRequest(requestBody: requestBody,
+                               clientID: clientID,
+                               clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
-                let session = Session(userName: session.userName, accessToken: session.accessToken, refreshToken: response.refresh_token, expirationDate: Date(timeIntervalSinceNow: response.expires_in))
+                let session = Session(userName: session.userName,
+                                      accessToken: session.accessToken,
+                                      refreshToken: response.refresh_token,
+                                      expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                 DispatchQueue.main.async {
                     completion(session, nil)
                 }
@@ -76,18 +93,20 @@ internal class Networking {
         }
     }
 
-    //MARK: Private
+    // MARK: Private
 
-    internal class func profileUsernameRequest(accessToken: String?, completion: @escaping (String?)->()){
+    internal class func profileUsernameRequest(accessToken: String?,
+                                               completion: @escaping (String?) -> Void) {
         guard let accessToken = accessToken else {
             completion(nil)
             return
         }
-        let profileURL = URL(string: ProfileServiceEndpointURL)!
+        let profileURL = URL(string: profileServiceEndpointURL)!
         var urlRequest = URLRequest(url: profileURL)
         let authHeaderValue = "Bearer \(accessToken)"
         urlRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
-        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: urlRequest,
+                                              completionHandler: { (data, _, error) in
             if let data = data, error == nil {
                 let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
                 DispatchQueue.main.async {
@@ -102,24 +121,30 @@ internal class Networking {
         task.resume()
     }
 
-    internal class func authRequest(requestBody: String, clientID: String, clientSecret: String, completion: @escaping (TokenEndpointResponse?, Error?) -> ()){
-        guard let authString = "\(clientID):\(clientSecret)".data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
+    internal class func authRequest(requestBody: String,
+                                    clientID: String,
+                                    clientSecret: String,
+                                    completion: @escaping (TokenEndpointResponse?, Error?) -> Void) {
+        guard let authString = "\(clientID):\(clientSecret)"
+            .data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
             DispatchQueue.main.async {
                 completion(nil, LoginError.configurationMissing)
             }
             return
         }
-        let endpoint = URL(string: APITokenEndpointURL)!
+        let endpoint = URL(string: apiTokenEndpointURL)!
         var urlRequest = URLRequest(url: endpoint)
-        urlRequest.addValue("application/x-www-form-urlencoded" , forHTTPHeaderField: "content-type")
+        urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
         urlRequest.httpMethod = "POST"
 
         let authHeaderValue = "Basic \(authString)"
         urlRequest.addValue(authHeaderValue, forHTTPHeaderField: "Authorization")
         urlRequest.httpBody = requestBody.data(using: .utf8)
 
-        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
-            if let data = data, let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data), error == nil {
+        let task = URLSession.shared.dataTask(with: urlRequest,
+                                              completionHandler: { (data, _, error) in
+            if let data = data,
+                let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data), error == nil {
                 DispatchQueue.main.async {
                     completion(authResponse, error)
                 }

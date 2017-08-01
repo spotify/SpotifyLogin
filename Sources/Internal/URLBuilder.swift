@@ -34,14 +34,23 @@ internal class URLBuilder {
         let endpoint = type.rawValue
         let scopeStrings = scopes.map({$0.rawValue})
 
-        var params = ["client_id": clientID, "redirect_uri": redirectURL.absoluteString, "response_type": "code", "show_dialog": "true", "nosignup": "true", "nolinks": "true", "utm_source": Constants.AuthUTMSourceQueryValue, "utm_medium": Constants.AuthUTMMediumCampaignQueryValue, "utm_campaign": Constants.AuthUTMMediumCampaignQueryValue]
+        var params = ["client_id": clientID,
+                      "redirect_uri": redirectURL.absoluteString,
+                      "response_type": "code",
+                      "show_dialog": "true",
+                      "nosignup": "true",
+                      "nolinks": "true",
+                      "utm_source": Constants.AuthUTMSourceQueryValue,
+                      "utm_medium": Constants.AuthUTMMediumCampaignQueryValue,
+                      "utm_campaign": Constants.AuthUTMMediumCampaignQueryValue]
 
-        if (scopeStrings.count > 0) {
+        if scopeStrings.count > 0 {
             params["scope"] = scopeStrings.joined(separator: " ")
         }
 
-        let pairs = params.map{"\($0)=\($1)"}
-        let pairsString = pairs.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ??  String()
+        let pairs = params.map {"\($0)=\($1)"}
+        let pairsString = pairs.joined(separator: "&")
+            .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ??  String()
 
         let loginPageURLString = "\(endpoint)authorize?\(pairsString)"
         return URL(string: loginPageURLString)
@@ -51,7 +60,8 @@ internal class URLBuilder {
         var code: String?
         var error = false
         if let fragment = url.query {
-            let fragmentItems = fragment.components(separatedBy: "&").reduce([String:String]()) { (dict, fragmentItem) in
+            let fragmentItems = fragment.components(separatedBy: "&")
+                .reduce([String: String]()) { (dict, fragmentItem) in
                 var mutableDict = dict
                 let splitValue = fragmentItem.components(separatedBy: "=")
                 mutableDict[splitValue[0]] = splitValue[1]

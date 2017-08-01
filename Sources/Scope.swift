@@ -14,7 +14,6 @@
 
 import Foundation
 
-
 /// User scopes, specifying exactly what types of data the application wants to access.
 public enum Scope: String {
     /// Read access to user's private playlists.
@@ -25,7 +24,9 @@ public enum Scope: String {
     case playlistModifyPublic = "playlist-modify-public"
     /// Write access to a user's private playlists.
     case playlistModifyPrivate = "playlist-modify-private"
-    /// Control playback of a Spotify track. This scope is currently only available to Spotify native SDKs (for example, the iOS SDK and the Android SDK). The user must have a Spotify Premium account.
+    /// Control playback of a Spotify track. This scope is currently only available to
+    // Spotify native SDKs (for example, the iOS SDK and the Android SDK). The user must
+    // have a Spotify Premium account.
     case streaming = "streaming"
     /// Write/delete access to the list of artists and other users that the user follows.
     case userFollowModify = "user-follow-modify"

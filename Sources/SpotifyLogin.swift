@@ -23,9 +23,7 @@ public class SpotifyLogin {
 
     /// The userName for the current session.
     public var userName: String? {
-        get {
-            return self.session?.userName
-        }
+        return self.session?.userName
     }
 
     private var clientID: String?
@@ -48,7 +46,6 @@ public class SpotifyLogin {
 
     weak private var safariVC: SFSafariViewController?
 
-
     private var urlBuilder: URLBuilder?
 
     // MARK: Interface
@@ -66,11 +63,10 @@ public class SpotifyLogin {
         self.urlBuilder = URLBuilder(clientID: clientID, clientSecret: clientSecret, redirectURL: redirectURL)
     }
 
-
     /// Asynchronous call to retrieve the session's auth token. Automatically refreshes if auth token expired. 
     ///
     /// - Parameter completion: Returns the auth token as a string if available and an optional error.
-    public func getAccessToken(completion:@escaping (String?, Error?) -> ()) {
+    public func getAccessToken(completion:@escaping (String?, Error?) -> Void) {
         // If the login object is not fully configured, return an error
         guard redirectURL != nil, let clientID = self.clientID, let clientSecret = self.clientSecret else {
             completion(nil, LoginError.configurationMissing)
@@ -86,7 +82,10 @@ public class SpotifyLogin {
             completion(session.accessToken, nil)
             return
         } else {
-            Networking.renewSession(session: session, clientID: clientID, clientSecret: clientSecret, completion: { (session, error) in
+            Networking.renewSession(session: session,
+                                    clientID: clientID,
+                                    clientSecret: clientSecret,
+                                    completion: { (session, error) in
                 if let session = session, error == nil {
                     completion(session.accessToken, nil)
                 } else {
@@ -101,8 +100,9 @@ public class SpotifyLogin {
     /// - Parameters:
     ///   - viewController: The view controller that orignates the log in flow.
     ///   - scopes: A list of requested scopes and permissions.
-    public func login(from viewController: (UIViewController), scopes:[Scope]) {
-        if let appAuthenticationURL = urlBuilder?.authenticationURL(type: .app, scopes: scopes), UIApplication.shared.canOpenURL(appAuthenticationURL) {
+    public func login(from viewController: (UIViewController), scopes: [Scope]) {
+        if let appAuthenticationURL = urlBuilder?.authenticationURL(type: .app, scopes: scopes),
+            UIApplication.shared.canOpenURL(appAuthenticationURL) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(appAuthenticationURL, options: [:], completionHandler: nil)
             } else {
@@ -126,14 +126,13 @@ public class SpotifyLogin {
     ///   - viewController: The view controller that orignates the log in flowv
     ///   - scopes: A list of requested scopes and permissions.
     /// - Returns: A UIButton.
-    public func loginButton(from viewController: (UIViewController), scopes:[Scope]) -> UIButton {
+    public func loginButton(from viewController: (UIViewController), scopes: [Scope]) -> UIButton {
         let spotifyLoginButton = SpotifyLoginButton()
         spotifyLoginButton.viewController = viewController
         spotifyLoginButton.scopes = scopes
         spotifyLoginButton.addTarget(self, action: #selector(performLogin(sender:)), for: .touchUpInside)
         return spotifyLoginButton
     }
-
 
     /// Log out of current session.
     public func logout() {
@@ -155,8 +154,11 @@ public class SpotifyLogin {
     ///   - url: url to handle.
     ///   - completion: Returns an optional error or nil if successful.
     /// - Returns: Whether or not the URL was handled.
-    public func applicationOpenURL(_ url: URL, completion: @escaping (Error?) -> ()) -> Bool {
-        guard let urlBuilder = self.urlBuilder, let redirectURL = self.redirectURL, let clientID = self.clientID, let clientSecret = self.clientSecret else {
+    public func applicationOpenURL(_ url: URL, completion: @escaping (Error?) -> Void) -> Bool {
+        guard let urlBuilder = self.urlBuilder,
+            let redirectURL = self.redirectURL,
+            let clientID = self.clientID,
+            let clientSecret = self.clientSecret else {
             DispatchQueue.main.async {
                 completion(LoginError.configurationMissing)
             }
@@ -173,8 +175,12 @@ public class SpotifyLogin {
         self.safariVC?.dismiss(animated: true, completion: nil)
 
         let parsedURL = urlBuilder.parse(url: url)
-        if let code = parsedURL.code, !parsedURL.error  {
-            Networking.createSession(code: code, redirectURL: redirectURL, clientID: clientID, clientSecret: clientSecret, completion: { [weak self] (session, error) in
+        if let code = parsedURL.code, !parsedURL.error {
+            Networking.createSession(code: code,
+                                     redirectURL: redirectURL,
+                                     clientID: clientID,
+                                     clientSecret: clientSecret,
+                                     completion: { [weak self] (session, error) in
                 DispatchQueue.main.async {
                     if error == nil {
                         NotificationCenter.default.post(name: .SpotifyLoginSuccessful, object: nil)
@@ -192,7 +198,7 @@ public class SpotifyLogin {
         return true
     }
 
-    @IBAction private func performLogin(sender: SpotifyLoginButton){
+    @IBAction private func performLogin(sender: SpotifyLoginButton) {
         guard let viewContoller = sender.viewController, let scopes = sender.scopes else { return }
         self.login(from: viewContoller, scopes: scopes)
     }
@@ -215,4 +221,3 @@ public extension Notification.Name {
     /// A Notification that is emitted by SpotifyLogin after a successful login. Can be used to update the UI.
     public static let SpotifyLoginSuccessful = Notification.Name("SpotifyLoginSuccessful")
 }
-

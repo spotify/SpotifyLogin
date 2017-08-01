@@ -11,7 +11,7 @@ import XCTest
 
 class SpotifyLoginTests: XCTestCase {
 
-    func testURLParsing(){
+    func testURLParsing() {
         let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string:"spotify.com")!)
         // Parse valid url
         let validURL = URL(string: "scheme://?code=spotify")!
@@ -25,7 +25,7 @@ class SpotifyLoginTests: XCTestCase {
         XCTAssertNil(parsedInvalidURL.code)
     }
 
-    func testCanHandleURL(){
+    func testCanHandleURL() {
         let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string:"spotify://")!)
         // Handle valid URL
         let validURL = URL(string: "spotify://")!
@@ -35,7 +35,7 @@ class SpotifyLoginTests: XCTestCase {
         XCTAssertFalse(urlBuilder.canHandleURL(invalidURL))
     }
 
-    func testAuthenticationURL(){
+    func testAuthenticationURL() {
         let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string:"spotify://")!)
         let webAuthenticationURL = urlBuilder.authenticationURL(type: .Web, scopes: [])
         XCTAssertNotNil(webAuthenticationURL)
@@ -43,21 +43,30 @@ class SpotifyLoginTests: XCTestCase {
         XCTAssertNotNil(appAuthenticationURL)
     }
 
-    func testSessionValid(){
-        let validSession = Session(userName: "userName", accessToken: "accessToken", refreshToken: "refreshToken", expirationDate: Date(timeIntervalSinceNow: 100))
+    func testSessionValid() {
+        let validSession = Session(userName: "userName",
+                                   accessToken: "accessToken",
+                                   refreshToken: "refreshToken",
+                                   expirationDate: Date(timeIntervalSinceNow: 100))
         XCTAssertTrue(validSession.isValid())
-        let inalidSession = Session(userName: "userName", accessToken: "accessToken", refreshToken: "refreshToken", expirationDate: Date(timeIntervalSinceNow: -100))
+        let inalidSession = Session(userName: "userName",
+                                    accessToken: "accessToken",
+                                    refreshToken: "refreshToken",
+                                    expirationDate: Date(timeIntervalSinceNow: -100))
         XCTAssertFalse(inalidSession.isValid())
     }
 
-    func testUsername(){
+    func testUsername() {
         let testUsername = "fakeUser"
-        let session = Session(userName: testUsername, accessToken: "accessToken", refreshToken: "refreshToken", expirationDate: Date())
+        let session = Session(userName: testUsername,
+                              accessToken: "accessToken",
+                              refreshToken: "refreshToken",
+                              expirationDate: Date())
         SpotifyLogin.shared.session = session
         XCTAssertEqual(SpotifyLogin.shared.userName, testUsername)
     }
 
-    func testGetToken(){
+    func testGetToken() {
         let emptySessionExpectation = expectation(description: "token expectation")
         SpotifyLogin.shared.session = nil
         SpotifyLogin.shared.getAccessToken { (token, error) in
@@ -69,16 +78,21 @@ class SpotifyLoginTests: XCTestCase {
 
         let unconfiguredSessionExpectation = expectation(description: "token expectation")
         let testToken = "fakeToken"
-        let tokenSession = Session(userName: "testUsername", accessToken: testToken, refreshToken: "refreshToken", expirationDate: Date.distantFuture)
+        let tokenSession = Session(userName: "testUsername",
+                                   accessToken: testToken,
+                                   refreshToken: "refreshToken",
+                                   expirationDate: Date.distantFuture)
         SpotifyLogin.shared.session = tokenSession
-        SpotifyLogin.shared.getAccessToken { (token, error) in
+        SpotifyLogin.shared.getAccessToken { (_, error) in
             XCTAssertNotNil(error)
             unconfiguredSessionExpectation.fulfill()
         }
         waitForExpectations(timeout: 0.5, handler: nil)
 
         let validSessionExpectation = expectation(description: "configuration expectation")
-        SpotifyLogin.shared.configure(clientID: "clientID", clientSecret: "clientSecret", redirectURL: URL(string:"spotify.com")!)
+        SpotifyLogin.shared.configure(clientID: "clientID",
+                                      clientSecret: "clientSecret",
+                                      redirectURL: URL(string:"spotify.com")!)
         SpotifyLogin.shared.getAccessToken { (token, error) in
             XCTAssertNil(error)
             XCTAssertEqual(token, testToken)
@@ -87,8 +101,11 @@ class SpotifyLoginTests: XCTestCase {
         waitForExpectations(timeout: 0.5, handler: nil)
     }
 
-    func testLogout(){
-        let testSession = Session(userName: "testUsername", accessToken: "testToken", refreshToken: "refreshToken", expirationDate: Date.distantFuture)
+    func testLogout() {
+        let testSession = Session(userName: "testUsername",
+                                  accessToken: "testToken",
+                                  refreshToken: "refreshToken",
+                                  expirationDate: Date.distantFuture)
         SpotifyLogin.shared.session = testSession
         SpotifyLogin.shared.logout()
         XCTAssertNil(SpotifyLogin.shared.session)

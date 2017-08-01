@@ -15,10 +15,17 @@ class LogInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let button = SpotifyLogin.shared.loginButton(from: self, scopes: [.Streaming, .UserReadTop, .PlaylistReadPrivate, .UserLibraryRead])
+        let button = SpotifyLogin.shared.loginButton(from: self,
+                                                     scopes: [.Streaming,
+                                                              .UserReadTop,
+                                                              .PlaylistReadPrivate,
+                                                              .UserLibraryRead])
         self.view.addSubview(button)
         self.loginButton = button
-        NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful), name: .SpotifyLoginSuccessful, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(loginSuccessful),
+                                               name: .SpotifyLoginSuccessful,
+                                               object: nil)
     }
 
     override func viewWillLayoutSubviews() {

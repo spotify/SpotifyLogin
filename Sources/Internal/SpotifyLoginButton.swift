@@ -29,14 +29,17 @@ internal class SpotifyLoginButton: UIButton {
         applyLayout()
     }
 
-    func applyLayout(){
+    func applyLayout() {
         self.backgroundColor = UIColor.spt_green()
         self.setTitleColor(.white, for: .normal)
         self.tintColor = .white
         self.titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 0.0)
         self.imageEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 8.0)
         self.adjustsImageWhenHighlighted = false
-        self.setImage(UIImage(named: "spotifylogo-32.png", in: Bundle(for: SpotifyLoginButton.self), compatibleWith: nil)!.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.setImage(UIImage(named: "spotifylogo-32.png",
+                              in: Bundle(for: SpotifyLoginButton.self),
+                              compatibleWith: nil)!
+            .withRenderingMode(.alwaysTemplate), for: .normal)
         self.setTitle("SIGN IN WITH SPOTIFY", for: .normal)
         self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         self.frame.size = self.intrinsicContentSize

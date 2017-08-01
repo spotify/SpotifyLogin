@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         SpotifyLogin.shared.getAccessToken { [weak self] (token, error) in
             self?.loggedInStackView.alpha = (error == nil) ? 1.0 : 0.0
-            if error != nil {
+            if error != nil, token == nil {
                 self?.showLoginFlow()
             }
         }
@@ -34,4 +34,3 @@ class ViewController: UIViewController {
     }
 
 }
-
