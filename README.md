@@ -84,16 +84,16 @@ The log in flow is completed in applicationOpenURL. To respond to a successful l
 NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful), name: .SpotifyLoginSuccessful, object: nil)
 ```
 
-### Extras
+### Additional features
 
 Access the current user's username:
 ```swift
 let username = SpotifyLogin.shared.userName
 ```
 
-To trigger the login flow from a custom action:
+To trigger the log in flow from a custom action:
 ```swift
-SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
+SpotifyLoginPresenter.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
 ```
 
 ## Setting up
