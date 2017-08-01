@@ -22,10 +22,10 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let button = SpotifyLoginButton(viewController: self,
-                                        scopes: [.Streaming,
-                                                 .UserReadTop,
-                                                 .PlaylistReadPrivate,
-                                                 .UserLibraryRead])
+                                        scopes: [.streaming,
+                                                 .userReadTop,
+                                                 .playlistReadPrivate,
+                                                 .userLibraryRead])
         self.view.addSubview(button)
         self.loginButton = button
         NotificationCenter.default.addObserver(self,
