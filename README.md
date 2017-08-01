@@ -62,10 +62,10 @@ This also automatically takes care of renewing expired tokens.
 
 ### Log in / Log out
 
-To log in:
-
+To add the default log in button:
 ```swift
-SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
+let button = SpotifyLoginButton(viewController: self, scopes: [.Streaming, .UserLibraryRead])
+self.view.addSubview(button)
 ```
 
 The scopes define the set of permissions your app will be able to use. For more information about available scopes, see [Scopes Documentation](https://developer.spotify.com/web-api/using-scopes/)
@@ -86,15 +86,14 @@ NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful
 
 ### Extras
 
-To use the default log in button:
-```swift
-let button = SpotifyLogin.shared.loginButton(from: self, scopes: [.Streaming, .UserReadTop, .PlaylistReadPrivate, .UserLibraryRead])
-self.view.addSubview(button)
-```
-
 Access the current user's username:
 ```swift
 let username = SpotifyLogin.shared.userName
+```
+
+To trigger the login flow from a custom action:
+```swift
+SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
 ```
 
 ## Setting up
