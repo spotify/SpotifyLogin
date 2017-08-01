@@ -11,9 +11,19 @@ import SpotifyLogin
 
 class LogInViewController: UIViewController {
 
+    var loginButton: UIButton?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        let button = SpotifyLogin.shared.loginButton(from: self, scopes: [.Streaming, .UserReadTop, .PlaylistReadPrivate, .UserLibraryRead])
+        self.view.addSubview(button)
+        self.loginButton = button
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful), name: .SpotifyLoginSuccessful, object: nil)
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        loginButton?.center = self.view.center
     }
 
     deinit {
@@ -22,9 +32,5 @@ class LogInViewController: UIViewController {
 
     @objc func loginSuccessful() {
         self.navigationController?.popViewController(animated: true)
-    }
-
-    @IBAction func didTapLogIn(_ sender: Any) {
-        SpotifyLogin.shared.login(from: self, scopes: [.Streaming, .UserReadTop, .PlaylistReadPrivate, .UserLibraryRead])
     }
 }

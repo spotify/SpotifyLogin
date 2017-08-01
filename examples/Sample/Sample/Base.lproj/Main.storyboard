@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" alpha="0.0" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="47R-kd-AwD">
-                                <rect key="frame" x="121.5" y="308.5" width="132.5" height="50.5"/>
+                                <rect key="frame" x="121.5" y="307" width="132.5" height="53.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are logged in" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CHm-n3-jy9">
                                         <rect key="frame" x="0.0" y="0.0" width="132.5" height="20.5"/>
@@ -28,8 +28,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hns-pu-dWO">
-                                        <rect key="frame" x="42.5" y="20.5" width="48" height="30"/>
-                                        <state key="normal" title="Logout"/>
+                                        <rect key="frame" x="37.5" y="20.5" width="58" height="33"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <state key="normal" title="Logout">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="didTapLogOut:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WYO-o2-ga2"/>
                                         </connections>
@@ -37,7 +40,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.46128099610000001" blue="0.35884513000000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.1137254902" green="0.72549019609999998" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="47R-kd-AwD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tIf-uq-2qQ"/>
                             <constraint firstItem="47R-kd-AwD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="vrJ-1b-j1y"/>
@@ -77,20 +80,7 @@
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="yNT-r6-On1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lit-5Q-1g9">
-                                <rect key="frame" x="166" y="318" width="42" height="30"/>
-                                <state key="normal" title="Log in"/>
-                                <connections>
-                                    <action selector="didTapLogIn:" destination="PGI-6f-bcb" eventType="touchUpInside" id="oCj-BH-Gbx"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" red="0.68546692087197825" green="1" blue="0.25353322413884949" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <constraints>
-                            <constraint firstItem="Lit-5Q-1g9" firstAttribute="centerY" secondItem="yNT-r6-On1" secondAttribute="centerY" id="FkL-g7-Y9X"/>
-                            <constraint firstItem="Lit-5Q-1g9" firstAttribute="centerX" secondItem="yNT-r6-On1" secondAttribute="centerX" id="Qy1-Fk-wKM"/>
-                        </constraints>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="77k-iF-OTf"/>
                     </view>
                 </viewController>

@@ -96,10 +96,11 @@ public class SpotifyLogin {
         }
     }
 
-
     /// Trigger log in flow.
     ///
-    /// - Parameter viewController: The view controller that orignates the log in flow.
+    /// - Parameters:
+    ///   - viewController: The view controller that orignates the log in flow.
+    ///   - scopes: A list of requested scopes and permissions.
     public func login(from viewController: (UIViewController), scopes:[Scope]) {
         if let appAuthenticationURL = urlBuilder?.authenticationURL(type: .App, scopes: scopes), UIApplication.shared.canOpenURL(appAuthenticationURL) {
             if #available(iOS 10.0, *) {
@@ -117,6 +118,20 @@ public class SpotifyLogin {
         } else {
             assertionFailure("Unable to login.")
         }
+    }
+
+    /// Creates a pre rendered, pre configured login button.
+    ///
+    /// - Parameters:
+    ///   - viewController: The view controller that orignates the log in flowv
+    ///   - scopes: A list of requested scopes and permissions.
+    /// - Returns: A UIButton.
+    public func loginButton(from viewController: (UIViewController), scopes:[Scope]) -> UIButton {
+        let spotifyLoginButton = SpotifyLoginButton()
+        spotifyLoginButton.viewController = viewController
+        spotifyLoginButton.scopes = scopes
+        spotifyLoginButton.addTarget(self, action: #selector(performLogin(sender:)), for: .touchUpInside)
+        return spotifyLoginButton
     }
 
 
@@ -175,6 +190,11 @@ public class SpotifyLogin {
             }
         }
         return true
+    }
+
+    @IBAction private func performLogin(sender: SpotifyLoginButton){
+        guard let viewContoller = sender.viewController, let scopes = sender.scopes else { return }
+        self.login(from: viewContoller, scopes: scopes)
     }
 
 }

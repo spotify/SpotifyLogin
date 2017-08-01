@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		34057DB21F2D27B8001D65AA /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34057DB11F2D27B8001D65AA /* Networking.swift */; };
+		340A6D581F306F4D004D16FC /* SpotifyLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A6D571F306F4D004D16FC /* SpotifyLoginButton.swift */; };
+		340A6D601F307490004D16FC /* spotifylogo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 340A6D5D1F307490004D16FC /* spotifylogo-32.png */; };
+		340A6D611F307490004D16FC /* spotifylogo-32@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 340A6D5E1F307490004D16FC /* spotifylogo-32@2x.png */; };
+		340A6D621F307490004D16FC /* spotifylogo-32@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 340A6D5F1F307490004D16FC /* spotifylogo-32@3x.png */; };
 		3432C7301F2DCBDE0001E70D /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432C72F1F2DCBDE0001E70D /* Scope.swift */; };
 		3432C7321F2DCBF30001E70D /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432C7311F2DCBF30001E70D /* URLBuilder.swift */; };
 		3479D28F1EC1ADEE00FF4EE2 /* SpotifyLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3479D2851EC1ADEE00FF4EE2 /* SpotifyLogin.framework */; };
@@ -32,6 +36,10 @@
 
 /* Begin PBXFileReference section */
 		34057DB11F2D27B8001D65AA /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		340A6D571F306F4D004D16FC /* SpotifyLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyLoginButton.swift; sourceTree = "<group>"; };
+		340A6D5D1F307490004D16FC /* spotifylogo-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spotifylogo-32.png"; path = "../../../Desktop/spotifylogo-32.png"; sourceTree = "<group>"; };
+		340A6D5E1F307490004D16FC /* spotifylogo-32@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spotifylogo-32@2x.png"; path = "../../../Desktop/spotifylogo-32@2x.png"; sourceTree = "<group>"; };
+		340A6D5F1F307490004D16FC /* spotifylogo-32@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spotifylogo-32@3x.png"; path = "../../../Desktop/spotifylogo-32@3x.png"; sourceTree = "<group>"; };
 		3432C72F1F2DCBDE0001E70D /* Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
 		3432C7311F2DCBF30001E70D /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		3479D2851EC1ADEE00FF4EE2 /* SpotifyLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpotifyLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +74,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		340A6D5C1F307485004D16FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				340A6D5D1F307490004D16FC /* spotifylogo-32.png */,
+				340A6D5E1F307490004D16FC /* spotifylogo-32@2x.png */,
+				340A6D5F1F307490004D16FC /* spotifylogo-32@3x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		3432C7331F2DCF250001E70D /* Internal */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,9 +118,11 @@
 		3479D2871EC1ADEE00FF4EE2 /* SpotifyLogin */ = {
 			isa = PBXGroup;
 			children = (
+				340A6D5C1F307485004D16FC /* Resources */,
 				3432C7331F2DCF250001E70D /* Internal */,
 				3479D2891EC1ADEE00FF4EE2 /* Info.plist */,
 				3432C72F1F2DCBDE0001E70D /* Scope.swift */,
+				340A6D571F306F4D004D16FC /* SpotifyLoginButton.swift */,
 				3479D2881EC1ADEE00FF4EE2 /* SpotifyLogin.h */,
 				3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */,
 			);
@@ -214,6 +234,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				340A6D601F307490004D16FC /* spotifylogo-32.png in Resources */,
+				340A6D611F307490004D16FC /* spotifylogo-32@2x.png in Resources */,
+				340A6D621F307490004D16FC /* spotifylogo-32@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +261,7 @@
 				34057DB21F2D27B8001D65AA /* Networking.swift in Sources */,
 				BEF4FC661EC1EE600082945B /* Keychain.swift in Sources */,
 				3479D2A31EC1B00B00FF4EE2 /* SpotifyLogin.swift in Sources */,
+				340A6D581F306F4D004D16FC /* SpotifyLoginButton.swift in Sources */,
 				3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
