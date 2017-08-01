@@ -14,10 +14,12 @@
 
 import UIKit
 
-internal class SpotifyLoginButton: UIButton {
 
-    weak var viewController: UIViewController?
-    var scopes: [Scope]?
+/// Pre-rendered, pre-configured login button
+public class SpotifyLoginButton: UIButton {
+
+    private weak var viewController: UIViewController?
+    private var scopes: [Scope]?
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +29,14 @@ internal class SpotifyLoginButton: UIButton {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         applyLayout()
+    }
+
+
+    public convenience init(viewController: UIViewController, scopes: [Scope]) {
+        self.init(frame: .zero)
+        self.viewController = viewController
+        self.scopes = scopes
+        self.addTarget(self, action: #selector(performLogin), for: .touchUpInside)
     }
 
     func applyLayout() {
@@ -45,7 +55,13 @@ internal class SpotifyLoginButton: UIButton {
         self.frame.size = self.intrinsicContentSize
     }
 
-    override var isHighlighted: Bool {
+
+    @IBAction private func performLogin() {
+        guard let viewContoller = self.viewController, let scopes = self.scopes else { return }
+        SpotifyLoginPresenter.login(from: viewContoller, scopes: scopes)
+    }
+
+    override public var isHighlighted: Bool {
         didSet {
             self.backgroundColor = self.isHighlighted ? UIColor.spt_darkGreen() : UIColor.spt_green()
         }
