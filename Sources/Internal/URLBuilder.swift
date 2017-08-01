@@ -74,6 +74,6 @@ internal class URLBuilder {
 }
 
 internal enum AuthenticationURLType: String {
-    case App = "spotify-action://"
-    case Web = "https://accounts.spotify.com/"
+    case app = "spotify-action://"
+    case web = "https://accounts.spotify.com/"
 }

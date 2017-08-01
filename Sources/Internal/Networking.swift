@@ -56,7 +56,7 @@ internal class Networking {
     internal class func renewSession(session: Session?, clientID: String, clientSecret: String, completion: @escaping (Session?, Error?) -> ()) {
         guard let session = session, let refreshToken = session.refreshToken else {
             DispatchQueue.main.async {
-                completion(nil, LoginError.NoSession)
+                completion(nil, LoginError.noSession)
             }
             return
         }
@@ -105,7 +105,7 @@ internal class Networking {
     internal class func authRequest(requestBody: String, clientID: String, clientSecret: String, completion: @escaping (TokenEndpointResponse?, Error?) -> ()){
         guard let authString = "\(clientID):\(clientSecret)".data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
             DispatchQueue.main.async {
-                completion(nil, LoginError.ConfigurationMissing)
+                completion(nil, LoginError.configurationMissing)
             }
             return
         }

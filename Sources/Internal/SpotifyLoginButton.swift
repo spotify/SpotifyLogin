@@ -1,10 +1,16 @@
+// Copyright (c) 2017 Spotify AB.
 //
-//  SpotifyLoginButton.swift
-//  SpotifyLogin
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Roy Marmelstein on 2017-08-01.
-//  Copyright © 2017 Spotify. All rights reserved.
+// http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 import UIKit
 
@@ -31,7 +37,7 @@ internal class SpotifyLoginButton: UIButton {
         self.imageEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 8.0)
         self.adjustsImageWhenHighlighted = false
         self.setImage(UIImage(named: "spotifylogo-32.png", in: Bundle(for: SpotifyLoginButton.self), compatibleWith: nil)!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.setTitle("Sign in with Spotify".uppercased(), for: .normal)
+        self.setTitle("SIGN IN WITH SPOTIFY", for: .normal)
         self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         self.frame.size = self.intrinsicContentSize
     }

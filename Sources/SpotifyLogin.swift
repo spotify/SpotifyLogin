@@ -73,12 +73,12 @@ public class SpotifyLogin {
     public func getAccessToken(completion:@escaping (String?, Error?) -> ()) {
         // If the login object is not fully configured, return an error
         guard redirectURL != nil, let clientID = self.clientID, let clientSecret = self.clientSecret else {
-            completion(nil, LoginError.ConfigurationMissing)
+            completion(nil, LoginError.configurationMissing)
             return
         }
         // If there is no session, return an error
         guard let session = self.session else {
-            completion(nil, LoginError.NoSession)
+            completion(nil, LoginError.noSession)
             return
         }
         // If session is valid return access token, otherwsie refresh
@@ -102,13 +102,13 @@ public class SpotifyLogin {
     ///   - viewController: The view controller that orignates the log in flow.
     ///   - scopes: A list of requested scopes and permissions.
     public func login(from viewController: (UIViewController), scopes:[Scope]) {
-        if let appAuthenticationURL = urlBuilder?.authenticationURL(type: .App, scopes: scopes), UIApplication.shared.canOpenURL(appAuthenticationURL) {
+        if let appAuthenticationURL = urlBuilder?.authenticationURL(type: .app, scopes: scopes), UIApplication.shared.canOpenURL(appAuthenticationURL) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(appAuthenticationURL, options: [:], completionHandler: nil)
             } else {
                 UIApplication.shared.openURL(appAuthenticationURL)
             }
-        } else if let webAuthenticationURL = urlBuilder?.authenticationURL(type: .Web, scopes: scopes) {
+        } else if let webAuthenticationURL = urlBuilder?.authenticationURL(type: .web, scopes: scopes) {
             viewController.definesPresentationContext = true
             let safariViewController: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
             safariViewController.modalPresentationStyle = .pageSheet
@@ -158,14 +158,14 @@ public class SpotifyLogin {
     public func applicationOpenURL(_ url: URL, completion: @escaping (Error?) -> ()) -> Bool {
         guard let urlBuilder = self.urlBuilder, let redirectURL = self.redirectURL, let clientID = self.clientID, let clientSecret = self.clientSecret else {
             DispatchQueue.main.async {
-                completion(LoginError.ConfigurationMissing)
+                completion(LoginError.configurationMissing)
             }
             return false
         }
 
         guard urlBuilder.canHandleURL(url) else {
             DispatchQueue.main.async {
-                completion(LoginError.InvalidUrl)
+                completion(LoginError.invalidUrl)
             }
             return false
         }
@@ -186,7 +186,7 @@ public class SpotifyLogin {
         } else {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: .SpotifyLoginSuccessful, object: nil)
-                completion(LoginError.InvalidUrl)
+                completion(LoginError.invalidUrl)
             }
         }
         return true
@@ -202,13 +202,13 @@ public class SpotifyLogin {
 /// Login error
 public enum LoginError: Error {
     /// Generic error message.
-    case General
+    case general
     /// Spotify Login is not fully configured. Use the configuration function.
-    case ConfigurationMissing
+    case configurationMissing
     /// There is no valid session. Use the login function.
-    case NoSession
+    case noSession
     /// The url provided to the app can not be handled or parsed.
-    case InvalidUrl
+    case invalidUrl
 }
 
 public extension Notification.Name {
