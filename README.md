@@ -64,7 +64,7 @@ This also automatically takes care of renewing expired tokens.
 
 To add the default log in button:
 ```swift
-let button = SpotifyLoginButton(viewController: self, scopes: [.Streaming, .UserLibraryRead])
+let button = SpotifyLoginButton(viewController: self, scopes: [.streaming, .userLibraryRead])
 self.view.addSubview(button)
 ```
 
@@ -93,7 +93,7 @@ let username = SpotifyLogin.shared.userName
 
 To trigger the log in flow from a custom action:
 ```swift
-SpotifyLoginPresenter.login(from: self, scopes: [.Streaming, .PlaylistReadPrivate, .UserLibraryRead])
+SpotifyLoginPresenter.login(from: self, scopes: [.streaming, .userLibraryRead])
 ```
 
 ## Setting up
