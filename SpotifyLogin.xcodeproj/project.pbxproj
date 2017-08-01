@@ -36,11 +36,11 @@
 
 /* Begin PBXFileReference section */
 		34057DB11F2D27B8001D65AA /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
-		340A6D571F306F4D004D16FC /* SpotifyLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyLoginButton.swift; sourceTree = "<group>"; };
+		340A6D571F306F4D004D16FC /* SpotifyLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpotifyLoginButton.swift; path = ../Sources/SpotifyLoginButton.swift; sourceTree = "<group>"; };
 		340A6D5D1F307490004D16FC /* spotifylogo-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spotifylogo-32.png"; path = "../../../Desktop/spotifylogo-32.png"; sourceTree = "<group>"; };
 		340A6D5E1F307490004D16FC /* spotifylogo-32@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spotifylogo-32@2x.png"; path = "../../../Desktop/spotifylogo-32@2x.png"; sourceTree = "<group>"; };
 		340A6D5F1F307490004D16FC /* spotifylogo-32@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spotifylogo-32@3x.png"; path = "../../../Desktop/spotifylogo-32@3x.png"; sourceTree = "<group>"; };
-		3432C72F1F2DCBDE0001E70D /* Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
+		3432C72F1F2DCBDE0001E70D /* Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Scope.swift; path = ../Sources/Scope.swift; sourceTree = "<group>"; };
 		3432C7311F2DCBF30001E70D /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		3479D2851EC1ADEE00FF4EE2 /* SpotifyLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpotifyLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3479D2881EC1ADEE00FF4EE2 /* SpotifyLogin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyLogin.h; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 		3479D28E1EC1ADEE00FF4EE2 /* SpotifyLoginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpotifyLoginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3479D2931EC1ADEE00FF4EE2 /* SpotifyLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyLoginTests.swift; sourceTree = "<group>"; };
 		3479D2951EC1ADEE00FF4EE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyLogin.swift; sourceTree = "<group>"; };
+		3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpotifyLogin.swift; path = ../Sources/SpotifyLogin.swift; sourceTree = "<group>"; };
 		3479D2A41EC1B50900FF4EE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariDelegate.swift; sourceTree = "<group>"; };
 		BEF4FC601EC1AE810082945B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -94,7 +94,8 @@
 				3432C7311F2DCBF30001E70D /* URLBuilder.swift */,
 				34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */,
 			);
-			path = Internal;
+			name = Internal;
+			path = ../Sources/Internal;
 			sourceTree = "<group>";
 		};
 		3479D27B1EC1ADEE00FF4EE2 = {
