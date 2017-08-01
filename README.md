@@ -7,7 +7,7 @@
 # SpotifyLogin
 SpotifyLogin is a Swift 4 Framework for authenticating with the Spotify API.
 
-Usage of this Framework is bound under the [Developer Terms of Use](https://developer.spotify.com/developer-terms-of-use/).
+Usage of this framework is bound under the [Developer Terms of Use](https://developer.spotify.com/developer-terms-of-use/).
 
 ## Usage
 
@@ -82,6 +82,19 @@ The log in flow is completed in applicationOpenURL. To respond to a successful l
 
 ```swift
 NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful), name: .SpotifyLoginSuccessful, object: nil)
+```
+
+### Extras
+
+To use the default log in button:
+```swift
+let button = SpotifyLogin.shared.loginButton(from: self, scopes: [.Streaming, .UserReadTop, .PlaylistReadPrivate, .UserLibraryRead])
+self.view.addSubview(button)
+```
+
+Access the current user's username:
+```swift
+let username = SpotifyLogin.shared.userName
 ```
 
 ## Setting up
