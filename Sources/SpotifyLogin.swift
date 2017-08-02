@@ -30,23 +30,19 @@ public class SpotifyLogin {
     private var clientSecret: String?
     private var redirectURL: URL?
 
-    internal var _session: Session?
     internal var session: Session? {
-        get {
-            if _session == nil {
-                return KeychainService.loadSession()
-            }
-            return _session
-        }
-        set {
-            _session = newValue
-            KeychainService.save(session: newValue)
+        didSet {
+            KeychainService.save(session: session)
         }
     }
 
     weak internal var safariVC: SFSafariViewController?
 
     internal var urlBuilder: URLBuilder?
+
+    init() {
+        self.session = KeychainService.loadSession()
+    }
 
     // MARK: Interface
 
@@ -85,8 +81,9 @@ public class SpotifyLogin {
             Networking.renewSession(session: session,
                                     clientID: clientID,
                                     clientSecret: clientSecret,
-                                    completion: { (session, error) in
+                                    completion: { [weak self](session, error) in
                 if let session = session, error == nil {
+                    self?.session = session
                     completion(session.accessToken, nil)
                 } else {
                     completion(nil, error)
@@ -144,8 +141,8 @@ public class SpotifyLogin {
                                      completion: { [weak self] (session, error) in
                 DispatchQueue.main.async {
                     if error == nil {
-                        NotificationCenter.default.post(name: .SpotifyLoginSuccessful, object: nil)
                         self?.session = session
+                        NotificationCenter.default.post(name: .SpotifyLoginSuccessful, object: nil)
                     }
                     completion(error)
                 }
