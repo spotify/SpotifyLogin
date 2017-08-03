@@ -51,7 +51,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 You can retrieve an access token and check if a user is logged in by:
 
 ```swift
-SpotifyLogin.shared.getAccessToken { (token, error) in
+SpotifyLogin.shared.getAccessToken { (accessToken, error) in
     if error != nil {
         // User is not logged in, show log in flow.
     }
@@ -88,7 +88,7 @@ NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful
 
 Access the current user's username:
 ```swift
-let username = SpotifyLogin.shared.userName
+let username = SpotifyLogin.shared.username
 ```
 
 To trigger the log in flow from a custom action:
