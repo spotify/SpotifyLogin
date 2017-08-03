@@ -79,7 +79,7 @@ internal class Networking {
                                clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
                 let session = Session(username: session.username,
-                                      accessToken: session.accessToken,
+                                      accessToken: response.access_token,
                                       refreshToken: session.refreshToken,
                                       expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                 DispatchQueue.main.async {
