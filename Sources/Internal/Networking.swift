@@ -80,7 +80,7 @@ internal class Networking {
             if let response = response, error == nil {
                 let session = Session(userName: session.userName,
                                       accessToken: session.accessToken,
-                                      refreshToken: response.refresh_token,
+                                      refreshToken: session.refreshToken,
                                       expirationDate: Date(timeIntervalSinceNow: response.expires_in))
                 DispatchQueue.main.async {
                     completion(session, nil)
