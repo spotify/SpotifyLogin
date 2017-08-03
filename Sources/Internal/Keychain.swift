@@ -36,9 +36,9 @@ internal class KeychainService {
             let encodedSession = try PropertyListEncoder().encode(session)
             let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
                                                 kSecAttrServiceValue: Constants.KeychainServiceValue,
-                                                kSecAttrAccountValue: session.userName,
+                                                kSecAttrAccountValue: session.username,
                                                 kSecValueDataValue: encodedSession]
-            UserDefaults.standard.set(session.userName, forKey: Constants.KeychainUsernameKey)
+            UserDefaults.standard.set(session.username, forKey: Constants.KeychainUsernameKey)
             SecItemDelete(keychainQuery as CFDictionary)
             SecItemAdd(keychainQuery as CFDictionary, nil)
         } catch {}

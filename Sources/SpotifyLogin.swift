@@ -22,8 +22,8 @@ public class SpotifyLogin {
     public static let shared = SpotifyLogin()
 
     /// The userName for the current session.
-    public var userName: String? {
-        return self.session?.userName
+    public var username: String? {
+        return self.session?.username
     }
 
     private var clientID: String?

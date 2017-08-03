@@ -45,7 +45,7 @@ internal class Networking {
             if let response = response, error == nil {
                 Networking.profileUsernameRequest(accessToken: response.access_token, completion: { (username) in
                     if let username = username {
-                        let session = Session(userName: username,
+                        let session = Session(username: username,
                                               accessToken: response.access_token,
                                               refreshToken: response.refresh_token,
                                               expirationDate: Date(timeIntervalSinceNow: response.expires_in))
@@ -78,7 +78,7 @@ internal class Networking {
                                clientID: clientID,
                                clientSecret: clientSecret) { (response, error) in
             if let response = response, error == nil {
-                let session = Session(userName: session.userName,
+                let session = Session(username: session.username,
                                       accessToken: session.accessToken,
                                       refreshToken: session.refreshToken,
                                       expirationDate: Date(timeIntervalSinceNow: response.expires_in))
