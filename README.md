@@ -121,6 +121,11 @@ To integrate SpotifyLogin into your Xcode project using Carthage, specify it in 
 github "spotify/SpotifyLogin"
 ```
 
+## Code of conduct
+This project adheres to the [Open Code of Conduct][code-of-conduct]. By contributing, you are expected to honor this code.
+
+[code-of-conduct]: https://github.com/spotify/code-of-conduct/blob/master/code-of-conduct.md
+
 ## Additional information
 
 [Spotify Developer Portal](https://developer.spotify.com/technologies/spotify-ios-sdk/) | [API Reference](https://spotify.github.io/ios-sdk/)
