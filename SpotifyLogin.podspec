@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   s.homepage         = "https://github.com/spotify/SpotifyLogin"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
-  s.license          = 'APACHE'
+  s.license          = "Apache 2.0"
   s.author           = { "Roy Marmelstein" => "marmelroy@gmail.com" }
   s.source           = { :git => "https://github.com/spotify/SpotifyLogin.git", :tag => s.version.to_s }
   s.social_media_url   = "http://twitter.com/marmelroy"
