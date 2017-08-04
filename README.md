@@ -12,7 +12,7 @@ Usage of this framework is bound under the [Developer Terms of Use](https://deve
 ## Usage
 
 ## Compatibility
-SpotifyLogin is written in Swift 4 and requires Xcode 9.0+. It is compatible with iOS 9 or later.
+SpotifyLogin requires Xcode 9.0+. It is compatible with iOS 9 or later.
 
 ### Pre-requisites
 You will need to register your app in the [Developer Portal](https://developer.spotify.com/my-applications/#!/applications).
