@@ -11,7 +11,7 @@ Usage of this framework is bound under the [Developer Terms of Use](https://deve
 
 ## Usage
 
-## Compatibility
+### Compatibility
 SpotifyLogin requires Xcode 9.0+. It is compatible with iOS 9 or later.
 
 ### Pre-requisites
