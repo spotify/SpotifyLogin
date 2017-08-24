@@ -21,9 +21,9 @@ Make sure to use a unique redirect url and to supply the bundle ID from your app
 
 After registering, you will receive a client ID and a client secret. 
 
-### Set up SwiftLogin
+### Set up SpotifyLogin
 
-Set up SwiftLogin using any of the methods detailed below (Cocoapods / Carthage / manually).
+Set up SpotifyLogin using any of the methods detailed below (Cocoapods / Carthage / manually).
 
 ### Set up info.plist
 
