@@ -14,8 +14,6 @@
 		34BB01751F2D17CF004D796B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34BB01741F2D17CF004D796B /* Assets.xcassets */; };
 		34BB01781F2D17CF004D796B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34BB01761F2D17CF004D796B /* LaunchScreen.storyboard */; };
 		34BB01831F2D17CF004D796B /* SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BB01821F2D17CF004D796B /* SampleTests.swift */; };
-		34BB01991F2D1817004D796B /* SpotifyLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BB01961F2D1810004D796B /* SpotifyLogin.framework */; };
-		34BB019A1F2D1817004D796B /* SpotifyLogin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 34BB01961F2D1810004D796B /* SpotifyLogin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,27 +24,6 @@
 			remoteGlobalIDString = 34BB01691F2D17CE004D796B;
 			remoteInfo = Sample;
 		};
-		34BB01951F2D1810004D796B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34BB01901F2D1810004D796B /* SpotifyLogin.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3479D2851EC1ADEE00FF4EE2;
-			remoteInfo = SpotifyLogin;
-		};
-		34BB01971F2D1810004D796B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34BB01901F2D1810004D796B /* SpotifyLogin.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3479D28E1EC1ADEE00FF4EE2;
-			remoteInfo = SpotifyLoginTests;
-		};
-		34BB019B1F2D1817004D796B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34BB01901F2D1810004D796B /* SpotifyLogin.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3479D2841EC1ADEE00FF4EE2;
-			remoteInfo = SpotifyLogin;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,7 +33,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				34BB019A1F2D1817004D796B /* SpotifyLogin.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,7 +51,6 @@
 		34BB017E1F2D17CF004D796B /* SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34BB01821F2D17CF004D796B /* SampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTests.swift; sourceTree = "<group>"; };
 		34BB01841F2D17CF004D796B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		34BB01901F2D1810004D796B /* SpotifyLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SpotifyLogin.xcodeproj; path = ../../SpotifyLogin.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +58,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34BB01991F2D1817004D796B /* SpotifyLogin.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +74,6 @@
 		34BB01611F2D17CE004D796B = {
 			isa = PBXGroup;
 			children = (
-				34BB01901F2D1810004D796B /* SpotifyLogin.xcodeproj */,
 				34BB016C1F2D17CE004D796B /* Sample */,
 				34BB01811F2D17CF004D796B /* SampleTests */,
 				34BB016B1F2D17CE004D796B /* Products */,
@@ -139,15 +112,6 @@
 			path = SampleTests;
 			sourceTree = "<group>";
 		};
-		34BB01911F2D1810004D796B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				34BB01961F2D1810004D796B /* SpotifyLogin.framework */,
-				34BB01981F2D1810004D796B /* SpotifyLoginTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -163,7 +127,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				34BB019C1F2D1817004D796B /* PBXTargetDependency */,
 			);
 			name = Sample;
 			productName = Sample;
@@ -218,12 +181,6 @@
 			mainGroup = 34BB01611F2D17CE004D796B;
 			productRefGroup = 34BB016B1F2D17CE004D796B /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 34BB01911F2D1810004D796B /* Products */;
-					ProjectRef = 34BB01901F2D1810004D796B /* SpotifyLogin.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				34BB01691F2D17CE004D796B /* Sample */,
@@ -231,23 +188,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		34BB01961F2D1810004D796B /* SpotifyLogin.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SpotifyLogin.framework;
-			remoteRef = 34BB01951F2D1810004D796B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34BB01981F2D1810004D796B /* SpotifyLoginTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SpotifyLoginTests.xctest;
-			remoteRef = 34BB01971F2D1810004D796B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		34BB01681F2D17CE004D796B /* Resources */ = {
@@ -295,11 +235,6 @@
 			isa = PBXTargetDependency;
 			target = 34BB01691F2D17CE004D796B /* Sample */;
 			targetProxy = 34BB017F1F2D17CF004D796B /* PBXContainerItemProxy */;
-		};
-		34BB019C1F2D1817004D796B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SpotifyLogin;
-			targetProxy = 34BB019B1F2D1817004D796B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
