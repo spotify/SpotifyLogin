@@ -68,4 +68,16 @@ internal class KeychainService {
 
         return nil
     }
+
+    internal class func removeSession() {
+        if let userName = UserDefaults.standard.value(forKey: Constants.KeychainUsernameKey) {
+            let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
+                                                kSecAttrServiceValue: Constants.KeychainServiceValue,
+                                                kSecAttrAccountValue: userName,
+                                                kSecReturnDataValue: kCFBooleanTrue,
+                                                kSecMatchLimitValue: kSecMatchLimitOneValue]
+            SecItemDelete(keychainQuery as CFDictionary)
+        }
+        UserDefaults.standard.removeObject(forKey: Constants.KeychainUsernameKey)
+    }
 }

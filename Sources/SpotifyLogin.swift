@@ -94,15 +94,7 @@ public class SpotifyLogin {
 
     /// Log out of current session.
     public func logout() {
-        if let userName = UserDefaults.standard.value(forKey: Constants.KeychainUsernameKey) {
-            let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
-                                                kSecAttrServiceValue: Constants.KeychainServiceValue,
-                                                kSecAttrAccountValue: userName,
-                                                kSecReturnDataValue: kCFBooleanTrue,
-                                                kSecMatchLimitValue: kSecMatchLimitOneValue]
-            SecItemDelete(keychainQuery as CFDictionary)
-        }
-        UserDefaults.standard.removeObject(forKey: Constants.KeychainUsernameKey)
+        KeychainService.removeSession()
         self.session = nil
     }
 
