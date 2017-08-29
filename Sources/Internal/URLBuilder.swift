@@ -59,18 +59,18 @@ internal class URLBuilder {
     internal func parse(url: URL) -> (code: String?, error: Bool) {
         var code: String?
         var error = false
-        if let fragment = url.query {
-            let fragmentItems = fragment.components(separatedBy: "&")
-                .reduce([String: String]()) { (dict, fragmentItem) in
-                var mutableDict = dict
-                let splitValue = fragmentItem.components(separatedBy: "=")
-                mutableDict[splitValue[0]] = splitValue[1]
-                return mutableDict
+        let components = URLComponents(string: url.absoluteString)
+
+        if let queryItems = components?.queryItems {
+            for query in queryItems {
+                if query.name == "code" {
+                    code = query.value
+                } else if query.name == "error" {
+                    error = true
+                }
             }
-            code = fragmentItems["code"]
-            error = fragment.contains("error")
         }
-        if !error && code == nil {
+        if code == nil {
             error = true
         }
         return (code: code, error: error)
