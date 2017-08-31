@@ -29,7 +29,26 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3479D28D1EC1ADEE00FF4EE2"
+               BuildableName = "SpotifyLoginTests.xctest"
+               BlueprintName = "SpotifyLoginTests"
+               ReferencedContainer = "container:SpotifyLogin.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3479D2841EC1ADEE00FF4EE2"
+            BuildableName = "SpotifyLogin.framework"
+            BlueprintName = "SpotifyLogin"
+            ReferencedContainer = "container:SpotifyLogin.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
