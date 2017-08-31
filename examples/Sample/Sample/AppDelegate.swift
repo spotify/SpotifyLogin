@@ -22,10 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let clientID: String = "df460a7d1ff04a72ba9699ca76cfe69b"
-        let clientSecret: String = "e47aa575e3244c4b96a6f569b1f59f63"
         let redirectURL: URL = URL(string:"loginsample://")!
-        SpotifyLogin.shared.configure(clientID: clientID, clientSecret: clientSecret, redirectURL: redirectURL)
+        SpotifyLogin.shared.configure(clientID: "YOUR CLIENT ID", clientSecret: "YOUR CLIENT SECRET", redirectURL: redirectURL)
         return true
     }
 
