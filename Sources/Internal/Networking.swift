@@ -41,9 +41,9 @@ internal class Networking {
         let requestBody = "code=\(code)&grant_type=authorization_code&redirect_uri=\(redirectURL.absoluteString)"
         Networking.authRequest(requestBody: requestBody,
                                clientID: clientID,
-                               clientSecret: clientSecret) { (response, error) in
+                               clientSecret: clientSecret) { response, error in
             if let response = response, error == nil {
-                Networking.profileUsernameRequest(accessToken: response.access_token, completion: { (username) in
+                Networking.profileUsernameRequest(accessToken: response.access_token, completion: { username in
                     if let username = username {
                         let session = Session(username: username,
                                               accessToken: response.access_token,
@@ -76,7 +76,7 @@ internal class Networking {
 
         Networking.authRequest(requestBody: requestBody,
                                clientID: clientID,
-                               clientSecret: clientSecret) { (response, error) in
+                               clientSecret: clientSecret) { response, error in
             if let response = response, error == nil {
                 let session = Session(username: session.username,
                                       accessToken: response.access_token,
@@ -155,7 +155,6 @@ internal class Networking {
             }
         })
         task.resume()
-
     }
 
 }
