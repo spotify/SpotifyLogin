@@ -40,7 +40,7 @@ public class SpotifyLogin {
 
     internal var urlBuilder: URLBuilder?
 
-    init() {
+    private init() {
         session = KeychainService.loadSession()
     }
 

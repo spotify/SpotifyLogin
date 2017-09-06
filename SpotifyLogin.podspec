@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SpotifyLogin"
-  s.version          = "0.1.1"
+  s.version          = "0.1.2"
   s.summary          = "Swift 4 Framework for authenticating with the Spotify API."
 
 # This description is used to generate tags and improve search results.
@@ -31,6 +31,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = "SpotifyLogin", "Sources", "Sources/Internal"
+  s.resources = "SpotifyLogin/Resources/*.*"
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.dependency 'AFNetworking', '~> 2.3'
