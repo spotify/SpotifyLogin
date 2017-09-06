@@ -23,7 +23,7 @@ public class SpotifyLogin {
 
     /// The userName for the current session.
     public var username: String? {
-        return self.session?.username
+        return session?.username
     }
 
     private var clientID: String?
@@ -41,7 +41,7 @@ public class SpotifyLogin {
     internal var urlBuilder: URLBuilder?
 
     private init() {
-        self.session = KeychainService.loadSession()
+        session = KeychainService.loadSession()
     }
 
     // MARK: Interface
@@ -64,12 +64,12 @@ public class SpotifyLogin {
     /// - Parameter completion: Returns the auth token as a string if available and an optional error.
     public func getAccessToken(completion:@escaping (String?, Error?) -> Void) {
         // If the login object is not fully configured, return an error
-        guard redirectURL != nil, let clientID = self.clientID, let clientSecret = self.clientSecret else {
+        guard redirectURL != nil, let clientID = clientID, let clientSecret = clientSecret else {
             completion(nil, LoginError.configurationMissing)
             return
         }
         // If there is no session, return an error
-        guard let session = self.session else {
+        guard let session = session else {
             completion(nil, LoginError.noSession)
             return
         }
@@ -81,7 +81,7 @@ public class SpotifyLogin {
             Networking.renewSession(session: session,
                                     clientID: clientID,
                                     clientSecret: clientSecret,
-                                    completion: { [weak self](session, error) in
+                                    completion: { [weak self] session, error in
                 if let session = session, error == nil {
                     self?.session = session
                     completion(session.accessToken, nil)
@@ -95,7 +95,7 @@ public class SpotifyLogin {
     /// Log out of current session.
     public func logout() {
         KeychainService.removeSession()
-        self.session = nil
+        session = nil
     }
 
     /// Process URL and attempts to create a session.
@@ -105,10 +105,10 @@ public class SpotifyLogin {
     ///   - completion: Returns an optional error or nil if successful.
     /// - Returns: Whether or not the URL was handled.
     public func applicationOpenURL(_ url: URL, completion: @escaping (Error?) -> Void) -> Bool {
-        guard let urlBuilder = self.urlBuilder,
-            let redirectURL = self.redirectURL,
-            let clientID = self.clientID,
-            let clientSecret = self.clientSecret else {
+        guard let urlBuilder = urlBuilder,
+            let redirectURL = redirectURL,
+            let clientID = clientID,
+            let clientSecret = clientSecret else {
             DispatchQueue.main.async {
                 completion(LoginError.configurationMissing)
             }
@@ -122,7 +122,7 @@ public class SpotifyLogin {
             return false
         }
 
-        self.safariVC?.dismiss(animated: true, completion: nil)
+        safariVC?.dismiss(animated: true, completion: nil)
 
         let parsedURL = urlBuilder.parse(url: url)
         if let code = parsedURL.code, !parsedURL.error {
@@ -130,7 +130,7 @@ public class SpotifyLogin {
                                      redirectURL: redirectURL,
                                      clientID: clientID,
                                      clientSecret: clientSecret,
-                                     completion: { [weak self] (session, error) in
+                                     completion: { [weak self] session, error in
                 DispatchQueue.main.async {
                     if error == nil {
                         self?.session = session

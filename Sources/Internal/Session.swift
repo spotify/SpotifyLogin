@@ -21,6 +21,6 @@ internal struct Session: Codable {
     let expirationDate: Date
 
     internal func isValid() -> Bool {
-        return Date().compare(self.expirationDate) == .orderedAscending
+        return Date().compare(expirationDate) == .orderedAscending
     }
 }

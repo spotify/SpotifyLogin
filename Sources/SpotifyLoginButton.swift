@@ -40,30 +40,30 @@ public class SpotifyLoginButton: UIButton {
     }
 
     func applyLayout() {
-        self.backgroundColor = UIColor.spt_green()
-        self.setTitleColor(.white, for: .normal)
-        self.tintColor = .white
-        self.titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 0.0)
-        self.imageEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 8.0)
-        self.adjustsImageWhenHighlighted = false
-        self.setImage(UIImage(named: "spotifylogo-32.png",
+        backgroundColor = UIColor.spt_green()
+        setTitleColor(.white, for: .normal)
+        tintColor = .white
+        titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 0.0)
+        imageEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 8.0)
+        adjustsImageWhenHighlighted = false
+        setImage(UIImage(named: "spotifylogo-32.png",
                               in: Bundle(for: SpotifyLoginButton.self),
                               compatibleWith: nil)!
             .withRenderingMode(.alwaysTemplate), for: .normal)
-        self.setTitle("SIGN IN WITH SPOTIFY", for: .normal)
-        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        self.frame.size = self.intrinsicContentSize
+        setTitle("SIGN IN WITH SPOTIFY", for: .normal)
+        titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        frame.size = intrinsicContentSize
     }
 
 
     @IBAction private func performLogin() {
-        guard let viewContoller = self.viewController, let scopes = self.scopes else { return }
+        guard let viewContoller = viewController, let scopes = scopes else { return }
         SpotifyLoginPresenter.login(from: viewContoller, scopes: scopes)
     }
 
     override public var isHighlighted: Bool {
         didSet {
-            self.backgroundColor = self.isHighlighted ? UIColor.spt_darkGreen() : UIColor.spt_green()
+            backgroundColor = isHighlighted ? UIColor.spt_darkGreen() : UIColor.spt_green()
         }
     }
 
@@ -73,7 +73,7 @@ public class SpotifyLoginButton: UIButton {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        self.layer.cornerRadius = self.frame.size.height/2
+        layer.cornerRadius = frame.size.height/2
     }
 
 }
