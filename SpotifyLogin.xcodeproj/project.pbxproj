@@ -22,7 +22,7 @@
 		3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A41EC1B50900FF4EE2 /* Constants.swift */; };
 		34AB98631F2DEDD300FE5F3B /* SafariDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */; };
 		BEF4FC611EC1AE810082945B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC601EC1AE810082945B /* Session.swift */; };
-		BEF4FC661EC1EE600082945B /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC651EC1EE600082945B /* Keychain.swift */; };
+		E19201361F8CD6D100DA1AB1 /* SessionLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19201351F8CD66B00DA1AB1 /* SessionLocalStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 		3479D2A41EC1B50900FF4EE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariDelegate.swift; sourceTree = "<group>"; };
 		BEF4FC601EC1AE810082945B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		BEF4FC651EC1EE600082945B /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		E19201351F8CD66B00DA1AB1 /* SessionLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionLocalStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,9 +90,9 @@
 			isa = PBXGroup;
 			children = (
 				3479D2A41EC1B50900FF4EE2 /* Constants.swift */,
-				BEF4FC651EC1EE600082945B /* Keychain.swift */,
 				34057DB11F2D27B8001D65AA /* Networking.swift */,
 				BEF4FC601EC1AE810082945B /* Session.swift */,
+				E19201351F8CD66B00DA1AB1 /* SessionLocalStorage.swift */,
 				3432C7311F2DCBF30001E70D /* URLBuilder.swift */,
 				34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */,
 			);
@@ -264,7 +264,7 @@
 				BEF4FC611EC1AE810082945B /* Session.swift in Sources */,
 				34057DB21F2D27B8001D65AA /* Networking.swift in Sources */,
 				344B226B1F30D530008D4CAF /* SpotifyLoginPresenter.swift in Sources */,
-				BEF4FC661EC1EE600082945B /* Keychain.swift in Sources */,
+				E19201361F8CD6D100DA1AB1 /* SessionLocalStorage.swift in Sources */,
 				3479D2A31EC1B00B00FF4EE2 /* SpotifyLogin.swift in Sources */,
 				340A6D581F306F4D004D16FC /* SpotifyLoginButton.swift in Sources */,
 				3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */,
