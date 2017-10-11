@@ -106,9 +106,7 @@ internal class KeychainWrapper {
     class func removeData(forKey key: String) -> Bool {
         let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
                                             kSecAttrServiceValue: KeychainServiceValue,
-                                            kSecAttrAccountValue: key,
-                                            kSecReturnDataValue: kCFBooleanTrue,
-                                            kSecMatchLimitValue: kSecMatchLimitOneValue]
+                                            kSecAttrAccountValue: key]
         let status: OSStatus = SecItemDelete(keychainQuery as CFDictionary)
         return (status == errSecSuccess)
     }
