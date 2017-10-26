@@ -35,7 +35,7 @@ In Xcode, go to your app's target and select the **Info** tab. At the bottom, of
 
 Add the app's identifer as the **Identifier** and the redirect url scheme in **URL schemes**.
 
-Additioanlly, you will need to add "spotify-action" to LSApplicationQueriesSchemes:
+Additionally, you will need to add "spotify-action" to the LSApplicationQueriesSchemes key:
 ![LSApplicationQueriesSchemes](https://user-images.githubusercontent.com/889949/29968001-f020c4d4-8f19-11e7-8925-433d3b30f842.png)
 
 ### Set up your AppDelegate
