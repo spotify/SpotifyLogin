@@ -12,9 +12,9 @@ Usage of this framework is bound under the [Developer Terms of Use](https://deve
 ## Usage
 
 ### Disclaimer
-SpotifyLogin is appropriate for prototyping only, because it requires you to disclose your client secret in source code.
+SpotifyLogin is appropriate for prototyping and non-commercial use only.
 
-**If your app is meant for production usage, SpotifyLogin can NOT be used.**
+**If your app is meant for commercial production usage, SpotifyLogin can NOT be used.**
 
 ### Compatibility
 SpotifyLogin requires Xcode 9.0+. It is compatible with iOS 9 or later. 
