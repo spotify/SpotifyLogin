@@ -44,4 +44,6 @@ public enum Scope: String {
     case userReadEmail = "user-read-email"
     /// Read access to a user's top artists and tracks.
     case userReadTop = "user-top-read"
+    /// Read access to read the player's playback state
+    case userReadPlaybackState = "user-read-playback-state"
 }
