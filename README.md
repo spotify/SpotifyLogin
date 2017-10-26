@@ -11,6 +11,11 @@ Usage of this framework is bound under the [Developer Terms of Use](https://deve
 
 ## Usage
 
+### Disclaimer
+SpotifyLogin is appropriate for prototyping only, because it requires you to disclose your client secret in source code.
+
+**If your app is meant for production usage, SpotifyLogin can NOT be used.**
+
 ### Compatibility
 SpotifyLogin requires Xcode 9.0+. It is compatible with iOS 9 or later. 
 
@@ -20,8 +25,6 @@ You will need to register your app in the [Developer Portal](https://developer.s
 Make sure to use a unique redirect url and to supply the bundle ID from your app.
 
 After registering, you will receive a client ID and a client secret. 
-
-**Quick Disclaimer:** SpotifyLogin uses the client secret in the source code to simplify token renewal. If needed, please make sure you deploy your own security measures.
 
 ### Set up SpotifyLogin
 
