@@ -22,13 +22,13 @@ internal let profileServiceEndpointURL = "https://api.spotify.com/v1/me"
 // MARK: API responses
 
 internal struct TokenEndpointResponse: Codable {
-    let access_token: String
-    let expires_in: Double
-    let refresh_token: String?
+    let accessToken: String
+    let expiresIn: Double
+    let refreshToken: String?
 }
 
 internal struct ProfileEndpointResponse: Codable {
-    let id: String
+    let identifier: String
 }
 
 internal class Networking {
@@ -43,12 +43,12 @@ internal class Networking {
                                clientID: clientID,
                                clientSecret: clientSecret) { response, error in
             if let response = response, error == nil {
-                Networking.profileUsernameRequest(accessToken: response.access_token, completion: { username in
+                Networking.profileUsernameRequest(accessToken: response.accessToken, completion: { username in
                     if let username = username {
                         let session = Session(username: username,
-                                              accessToken: response.access_token,
-                                              refreshToken: response.refresh_token,
-                                              expirationDate: Date(timeIntervalSinceNow: response.expires_in))
+                                              accessToken: response.accessToken,
+                                              refreshToken: response.refreshToken,
+                                              expirationDate: Date(timeIntervalSinceNow: response.expiresIn))
                         DispatchQueue.main.async {
                             completion(session, nil)
                         }
@@ -79,9 +79,9 @@ internal class Networking {
                                clientSecret: clientSecret) { response, error in
             if let response = response, error == nil {
                 let session = Session(username: session.username,
-                                      accessToken: response.access_token,
+                                      accessToken: response.accessToken,
                                       refreshToken: session.refreshToken,
-                                      expirationDate: Date(timeIntervalSinceNow: response.expires_in))
+                                      expirationDate: Date(timeIntervalSinceNow: response.expiresIn))
                 DispatchQueue.main.async {
                     completion(session, nil)
                 }
@@ -110,7 +110,7 @@ internal class Networking {
             if let data = data, error == nil {
                 let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
                 DispatchQueue.main.async {
-                    completion(profileResponse?.id)
+                    completion(profileResponse?.identifier)
                 }
             } else {
                 DispatchQueue.main.async {
