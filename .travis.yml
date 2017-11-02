@@ -9,10 +9,12 @@ before_install:
   - gem install cocoapods --pre
   - xcrun simctl list
 install: echo "<3"
+  - ./install_swiftlint.sh
 env:
   - MODE=framework
   - MODE=examples
 script: ./build.sh $MODE
+ - swiftlint
 
 # whitelist
 branches:
