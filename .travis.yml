@@ -14,8 +14,8 @@ env:
   - MODE=framework
   - MODE=examples
 script: 
-  - ./build.sh $MODE
   - swiftlint
+  - ./build.sh $MODE
 
 # whitelist
 branches:
