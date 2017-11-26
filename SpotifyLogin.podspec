@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SpotifyLogin"
-  s.version          = "0.1.3"
+  s.version          = "0.1.4"
   s.summary          = "Swift 4 Framework for authenticating with the Spotify API."
 
 # This description is used to generate tags and improve search results.
@@ -26,6 +26,8 @@ Pod::Spec.new do |s|
   s.author           = { "Roy Marmelstein" => "marmelroy@gmail.com" }
   s.source           = { :git => "https://github.com/spotify/SpotifyLogin.git", :tag => s.version.to_s }
   s.social_media_url   = "http://twitter.com/marmelroy"
+
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
 
   s.ios.deployment_target = '9.0'
   s.requires_arc = true
