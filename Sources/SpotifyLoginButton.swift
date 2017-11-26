@@ -14,7 +14,6 @@
 
 import UIKit
 
-
 /// Pre-rendered, pre-configured login button
 public class SpotifyLoginButton: UIButton {
 
@@ -30,7 +29,6 @@ public class SpotifyLoginButton: UIButton {
         super.init(coder: aDecoder)
         applyLayout()
     }
-
 
     public convenience init(viewController: UIViewController, scopes: [Scope]) {
         self.init(frame: .zero)
@@ -54,7 +52,6 @@ public class SpotifyLoginButton: UIButton {
         titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         frame.size = intrinsicContentSize
     }
-
 
     @IBAction private func performLogin() {
         guard let viewContoller = viewController, let scopes = scopes else { return }

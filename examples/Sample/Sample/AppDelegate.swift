@@ -22,15 +22,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let redirectURL: URL = URL(string:"loginsample://")!
-        SpotifyLogin.shared.configure(clientID: "YOUR CLIENT ID", clientSecret: "YOUR CLIENT SECRET", redirectURL: redirectURL)
+        let redirectURL: URL = URL(string: "loginsample://")!
+        SpotifyLogin.shared.configure(clientID: "YOUR CLIENT ID",
+                                      clientSecret: "YOUR CLIENT SECRET",
+                                      redirectURL: redirectURL)
         return true
     }
 
     func application(_ app: UIApplication,
                      open url: URL,
-                     options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        let handled = SpotifyLogin.shared.applicationOpenURL(url) { (error) in }
+                     options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+        let handled = SpotifyLogin.shared.applicationOpenURL(url) { _ in }
         return handled
     }
 
