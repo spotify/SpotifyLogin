@@ -32,7 +32,7 @@ public class SpotifyLogin {
 
     internal var session: Session? {
         didSet {
-            KeychainService.save(session: session)
+            SessionLocalStorage.save(session: session)
         }
     }
 
@@ -41,7 +41,7 @@ public class SpotifyLogin {
     internal var urlBuilder: URLBuilder?
 
     private init() {
-        session = KeychainService.loadSession()
+        session = SessionLocalStorage.loadSession()
     }
 
     // MARK: Interface
@@ -94,7 +94,7 @@ public class SpotifyLogin {
 
     /// Log out of current session.
     public func logout() {
-        KeychainService.removeSession()
+        SessionLocalStorage.removeSession()
         session = nil
     }
 

@@ -40,7 +40,7 @@ if [ "$MODE" = "examples" ]; then
             -scheme Sample \
             -sdk "$SDK" \
             -destination "$PLATFORM" \
-            build
+            build test
     done
     trap - EXIT
     exit 0
