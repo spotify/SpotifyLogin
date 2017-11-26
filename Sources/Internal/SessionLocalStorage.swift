@@ -15,12 +15,12 @@
 import Foundation
 
 internal class SessionLocalStorage {
-    
+
     internal class func save(session: Session?) {
         guard let session = session else {
             return
         }
-        
+
         do {
             let encodedSession = try PropertyListEncoder().encode(session)
             if !KeychainWrapper.save(encodedSession, forKey: session.username) {
@@ -29,20 +29,20 @@ internal class SessionLocalStorage {
             storeUsername(session.username)
         } catch {}
     }
-    
+
     internal class func loadSession() -> Session? {
         guard let userName = storedUsername() else {
             return nil
         }
-        
+
         if let data = KeychainWrapper.data(forKey: userName) {
             let decodedSession = try? PropertyListDecoder().decode(Session.self, from: data)
             return decodedSession
         }
-        
+
         return nil
     }
-    
+
     internal class func removeSession() {
         if let userName = storedUsername() {
             if !KeychainWrapper.removeData(forKey: userName) {
@@ -51,12 +51,12 @@ internal class SessionLocalStorage {
         }
         UserDefaults.standard.removeObject(forKey: Constants.KeychainUsernameKey)
     }
-    
+
     // MARK: - Private
     private class func storeUsername(_ username: String) {
         UserDefaults.standard.set(username, forKey: Constants.KeychainUsernameKey)
     }
-    
+
     private class func storedUsername() -> String? {
         return UserDefaults.standard.value(forKey: Constants.KeychainUsernameKey) as? String
     }
@@ -74,27 +74,27 @@ private let kSecMatchLimitValue = String(kSecMatchLimit)
 private let kSecReturnDataValue = String(kSecReturnData)
 private let kSecMatchLimitOneValue = String(kSecMatchLimitOne)
 
-private let KeychainServiceValue = Constants.KeychainServiceValue
+private let keychainServiceValue = Constants.KeychainServiceValue
 
 internal class KeychainWrapper {
-    
+
     class func save(_ data: Data, forKey key: String) -> Bool {
         let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
-                                            kSecAttrServiceValue: KeychainServiceValue,
+                                            kSecAttrServiceValue: keychainServiceValue,
                                             kSecAttrAccountValue: key,
                                             kSecValueDataValue: data]
         SecItemDelete(keychainQuery as CFDictionary)
         let status: OSStatus = SecItemAdd(keychainQuery as CFDictionary, nil)
         return (status == errSecSuccess)
     }
-    
-    class func data(forKey key:String) -> Data? {
+
+    class func data(forKey key: String) -> Data? {
         let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
-                                            kSecAttrServiceValue: KeychainServiceValue,
+                                            kSecAttrServiceValue: keychainServiceValue,
                                             kSecAttrAccountValue: key,
                                             kSecReturnDataValue: kCFBooleanTrue,
                                             kSecMatchLimitValue: kSecMatchLimitOneValue]
-        
+
         var dataBuffer: AnyObject?
         let status: OSStatus = SecItemCopyMatching(keychainQuery as CFDictionary, &dataBuffer)
         if status == errSecSuccess {
@@ -102,14 +102,12 @@ internal class KeychainWrapper {
         }
         return nil
     }
-    
+
     class func removeData(forKey key: String) -> Bool {
         let keychainQuery: [String: Any] = [kSecClassValue: kSecClassGenericPasswordValue,
-                                            kSecAttrServiceValue: KeychainServiceValue,
+                                            kSecAttrServiceValue: keychainServiceValue,
                                             kSecAttrAccountValue: key]
         let status: OSStatus = SecItemDelete(keychainQuery as CFDictionary)
         return (status == errSecSuccess)
     }
 }
-
-
