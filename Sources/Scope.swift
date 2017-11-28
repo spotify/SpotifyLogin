@@ -46,4 +46,8 @@ public enum Scope: String {
     case userReadTop = "user-top-read"
     /// Read access to read the player's playback state
     case userReadPlaybackState = "user-read-playback-state"
+    /// Control the player's playback state
+    case userModifyPlaybackState = "user-modify-playback-state"
+    /// Read access to user's currently playing track
+    case userReadCurrentlyPlaying = "user-read-currently-playing"
 }
