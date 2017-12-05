@@ -153,7 +153,10 @@ internal class Networking {
         task.resume()
     }
 
-    private class func dispatchOnMainQueue<T>(_ completion: (T?, Error?) -> Void, _ resultType: T?, _ error: Error?) {
-        completion(resultType, error)
+    private class func dispatchOnMainQueue<T>(_ completion: @escaping (T?, Error?) -> Void,
+                                              _ resultType: T?, _ error: Error?) {
+        DispatchQueue.main.async {
+            completion(resultType, error)
+        }
     }
 }
