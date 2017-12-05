@@ -21,11 +21,11 @@ class KeychainWrapperTests: XCTestCase {
     let testData = "test".data(using: .utf8)!
 
     override func tearDown() {
-        _ = KeychainWrapper.removeData(forKey:testKey)
+        _ = KeychainWrapper.removeData(forKey: testKey)
     }
 
     func testThatRemovingDataBeforeSavingItFails() {
-        XCTAssertFalse(KeychainWrapper.removeData(forKey:testKey))
+        XCTAssertFalse(KeychainWrapper.removeData(forKey: testKey))
     }
 
     func testThatRetrievingDataBeforeSavingItReturnsNil() {
@@ -33,12 +33,12 @@ class KeychainWrapperTests: XCTestCase {
     }
 
     func testThatRemovingDataAfterSavingItSucceeds() {
-        XCTAssertTrue(KeychainWrapper.save(testData, forKey:testKey))
-        XCTAssertTrue(KeychainWrapper.removeData(forKey:testKey))
+        XCTAssertTrue(KeychainWrapper.save(testData, forKey: testKey))
+        XCTAssertTrue(KeychainWrapper.removeData(forKey: testKey))
     }
 
     func testThatRetrievingDataAfterSavingItReturnsTheData() {
-        XCTAssertTrue(KeychainWrapper.save(testData, forKey:testKey))
+        XCTAssertTrue(KeychainWrapper.save(testData, forKey: testKey))
         XCTAssertNotNil(KeychainWrapper.data(forKey: testKey))
     }
 
