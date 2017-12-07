@@ -23,11 +23,11 @@ internal class URLBuilder {
 
     // MARK: Lifecycle
 
-    internal init(clientID: String, clientSecret: String, redirectURL: URL, showDialog: Bool?) {
+    internal init(clientID: String, clientSecret: String, redirectURL: URL, showDialog: Bool) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
-        self.showDialog = showDialog ?? true
+        self.showDialog = showDialog
     }
 
     // MARK: URL functions
