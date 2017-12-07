@@ -18,7 +18,7 @@ import XCTest
 class SpotifyLoginTests: XCTestCase {
 
     func testURLParsing() {
-        let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string: "spotify.com")!)
+        let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string: "spotify.com")!, showDialog: false)
         // Parse valid url
         let validURL = URL(string: "scheme://?code=spotify")!
         let parsedValidURL = urlBuilder.parse(url: validURL)
@@ -32,7 +32,7 @@ class SpotifyLoginTests: XCTestCase {
     }
 
     func testCanHandleURL() {
-        let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string: "spotify://")!)
+        let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string: "spotify://")!, showDialog: false)
         // Handle valid URL
         let validURL = URL(string: "spotify://")!
         XCTAssertTrue(urlBuilder.canHandleURL(validURL))
@@ -42,7 +42,7 @@ class SpotifyLoginTests: XCTestCase {
     }
 
     func testAuthenticationURL() {
-        let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string: "spotify://")!)
+        let urlBuilder = URLBuilder(clientID: "id", clientSecret: "secret", redirectURL: URL(string: "spotify://")!, showDialog: false)
         let webAuthenticationURL = urlBuilder.authenticationURL(type: .web, scopes: [])
         XCTAssertNotNil(webAuthenticationURL)
         let appAuthenticationURL = urlBuilder.authenticationURL(type: .app, scopes: [.streaming])
