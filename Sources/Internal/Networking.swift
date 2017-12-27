@@ -61,11 +61,11 @@ internal class Networking {
                                               accessToken: response.accessToken,
                                               refreshToken: response.refreshToken,
                                               expirationDate: Date(timeIntervalSinceNow: response.expiresIn))
-                        dispatchOnMainQueue(completion, session, nil)
+                        SPDispatchQueue.dispatchOnMain(completion, session, nil)
                     }
                 })
             } else {
-                dispatchOnMainQueue(completion, nil, error)
+                SPDispatchQueue.dispatchOnMain(completion, nil, error)
             }
         }
     }
@@ -75,7 +75,7 @@ internal class Networking {
                                      clientSecret: String,
                                      completion: @escaping (Session?, Error?) -> Void) {
         guard let session = session, let refreshToken = session.refreshToken else {
-            dispatchOnMainQueue(completion, nil, LoginError.noSession)
+            SPDispatchQueue.dispatchOnMain(completion, nil, LoginError.noSession)
             return
         }
         let requestBody = "grant_type=refresh_token&refresh_token=\(refreshToken)"
@@ -88,9 +88,9 @@ internal class Networking {
                                       accessToken: response.accessToken,
                                       refreshToken: session.refreshToken,
                                       expirationDate: Date(timeIntervalSinceNow: response.expiresIn))
-                dispatchOnMainQueue(completion, session, nil)
+                SPDispatchQueue.dispatchOnMain(completion, session, nil)
             } else {
-                dispatchOnMainQueue(completion, nil, error)
+                SPDispatchQueue.dispatchOnMain(completion, nil, error)
             }
         }
     }
@@ -111,13 +111,9 @@ internal class Networking {
                                               completionHandler: { (data, _, error) in
             if let data = data, error == nil {
                 let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
-                DispatchQueue.main.async {
-                    completion(profileResponse?.identifier)
-                }
+                SPDispatchQueue.dispatchOnMain(completion, profileResponse?.identifier)
             } else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
+                SPDispatchQueue.dispatchOnMain(completion, nil)
             }
         })
         task.resume()
@@ -129,7 +125,7 @@ internal class Networking {
                                     completion: @escaping (TokenEndpointResponse?, Error?) -> Void) {
         guard let authString = "\(clientID):\(clientSecret)"
             .data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
-            dispatchOnMainQueue(completion, nil, LoginError.configurationMissing)
+            SPDispatchQueue.dispatchOnMain(completion, nil, LoginError.configurationMissing)
             return
         }
         let endpoint = URL(string: apiTokenEndpointURL)!
@@ -145,18 +141,11 @@ internal class Networking {
                                               completionHandler: { (data, _, error) in
             if let data = data,
                 let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data), error == nil {
-                dispatchOnMainQueue(completion, authResponse, error)
+                SPDispatchQueue.dispatchOnMain(completion, authResponse, error)
             } else {
-                dispatchOnMainQueue(completion, nil, error)
+                SPDispatchQueue.dispatchOnMain(completion, nil, error)
             }
         })
         task.resume()
-    }
-
-    private class func dispatchOnMainQueue<T>(_ completion: @escaping (T?, Error?) -> Void,
-                                              _ resultType: T?, _ error: Error?) {
-        DispatchQueue.main.async {
-            completion(resultType, error)
-        }
     }
 }

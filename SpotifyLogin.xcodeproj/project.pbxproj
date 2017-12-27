@@ -21,6 +21,7 @@
 		3479D2A31EC1B00B00FF4EE2 /* SpotifyLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */; };
 		3479D2A51EC1B50900FF4EE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3479D2A41EC1B50900FF4EE2 /* Constants.swift */; };
 		34AB98631F2DEDD300FE5F3B /* SafariDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */; };
+		BD9B70331FF39F2000E45ECD /* SPDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9B70321FF39F2000E45ECD /* SPDispatchQueue.swift */; };
 		BEF4FC611EC1AE810082945B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4FC601EC1AE810082945B /* Session.swift */; };
 		E19201361F8CD6D100DA1AB1 /* SessionLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19201351F8CD66B00DA1AB1 /* SessionLocalStorage.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 		3479D2A21EC1B00B00FF4EE2 /* SpotifyLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpotifyLogin.swift; path = ../Sources/SpotifyLogin.swift; sourceTree = "<group>"; };
 		3479D2A41EC1B50900FF4EE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariDelegate.swift; sourceTree = "<group>"; };
+		BD9B70321FF39F2000E45ECD /* SPDispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPDispatchQueue.swift; sourceTree = "<group>"; };
 		BEF4FC601EC1AE810082945B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		E19201351F8CD66B00DA1AB1 /* SessionLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionLocalStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 				E19201351F8CD66B00DA1AB1 /* SessionLocalStorage.swift */,
 				3432C7311F2DCBF30001E70D /* URLBuilder.swift */,
 				34AB98621F2DEDD300FE5F3B /* SafariDelegate.swift */,
+				BD9B70321FF39F2000E45ECD /* SPDispatchQueue.swift */,
 			);
 			name = Internal;
 			path = ../Sources/Internal;
@@ -280,6 +283,7 @@
 				34AB98631F2DEDD300FE5F3B /* SafariDelegate.swift in Sources */,
 				3432C7301F2DCBDE0001E70D /* Scope.swift in Sources */,
 				3432C7321F2DCBF30001E70D /* URLBuilder.swift in Sources */,
+				BD9B70331FF39F2000E45ECD /* SPDispatchQueue.swift in Sources */,
 				BEF4FC611EC1AE810082945B /* Session.swift in Sources */,
 				34057DB21F2D27B8001D65AA /* Networking.swift in Sources */,
 				344B226B1F30D530008D4CAF /* SpotifyLoginPresenter.swift in Sources */,
