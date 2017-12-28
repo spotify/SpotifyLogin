@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.requires_arc = true
 
-  s.source_files = "SpotifyLogin", "Sources", "Sources/Internal"
+  s.source_files = "SpotifyLogin", "Sources", "Sources/Internal", "Sources/Internal/Extensions"
   s.resources = "SpotifyLogin/Resources/*.*"
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
