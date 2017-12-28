@@ -61,11 +61,11 @@ internal class Networking {
                                               accessToken: response.accessToken,
                                               refreshToken: response.refreshToken,
                                               expirationDate: Date(timeIntervalSinceNow: response.expiresIn))
-                        SPDispatchQueue.dispatchOnMain(completion, session, nil)
+                        DispatchQueue.dispatchOnMain(completion(session, nil))
                     }
                 })
             } else {
-                SPDispatchQueue.dispatchOnMain(completion, nil, error)
+                DispatchQueue.dispatchOnMain(completion(nil, error))
             }
         }
     }
@@ -75,7 +75,7 @@ internal class Networking {
                                      clientSecret: String,
                                      completion: @escaping (Session?, Error?) -> Void) {
         guard let session = session, let refreshToken = session.refreshToken else {
-            SPDispatchQueue.dispatchOnMain(completion, nil, LoginError.noSession)
+            DispatchQueue.dispatchOnMain(completion(nil, LoginError.noSession))
             return
         }
         let requestBody = "grant_type=refresh_token&refresh_token=\(refreshToken)"
@@ -88,9 +88,9 @@ internal class Networking {
                                       accessToken: response.accessToken,
                                       refreshToken: session.refreshToken,
                                       expirationDate: Date(timeIntervalSinceNow: response.expiresIn))
-                SPDispatchQueue.dispatchOnMain(completion, session, nil)
+                DispatchQueue.dispatchOnMain(completion(session, nil))
             } else {
-                SPDispatchQueue.dispatchOnMain(completion, nil, error)
+                DispatchQueue.dispatchOnMain(completion(nil, error))
             }
         }
     }
@@ -111,9 +111,9 @@ internal class Networking {
                                               completionHandler: { (data, _, error) in
             if let data = data, error == nil {
                 let profileResponse = try? JSONDecoder().decode(ProfileEndpointResponse.self, from: data)
-                SPDispatchQueue.dispatchOnMain(completion, profileResponse?.identifier)
+                DispatchQueue.dispatchOnMain(completion(profileResponse?.identifier))
             } else {
-                SPDispatchQueue.dispatchOnMain(completion, nil)
+                DispatchQueue.dispatchOnMain(completion(nil))
             }
         })
         task.resume()
@@ -125,8 +125,8 @@ internal class Networking {
                                     completion: @escaping (TokenEndpointResponse?, Error?) -> Void) {
         guard let authString = "\(clientID):\(clientSecret)"
             .data(using: .ascii)?.base64EncodedString(options: .endLineWithLineFeed) else {
-            SPDispatchQueue.dispatchOnMain(completion, nil, LoginError.configurationMissing)
-            return
+                DispatchQueue.dispatchOnMain(completion(nil, LoginError.configurationMissing))
+                return
         }
         let endpoint = URL(string: apiTokenEndpointURL)!
         var urlRequest = URLRequest(url: endpoint)
@@ -141,9 +141,9 @@ internal class Networking {
                                               completionHandler: { (data, _, error) in
             if let data = data,
                 let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data), error == nil {
-                SPDispatchQueue.dispatchOnMain(completion, authResponse, error)
+                DispatchQueue.dispatchOnMain(completion(authResponse, error))
             } else {
-                SPDispatchQueue.dispatchOnMain(completion, nil, error)
+                DispatchQueue.dispatchOnMain(completion(nil, error))
             }
         })
         task.resume()

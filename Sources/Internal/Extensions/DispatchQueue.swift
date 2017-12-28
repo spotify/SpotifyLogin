@@ -14,17 +14,9 @@
 
 import Foundation
 
-internal class SPDispatchQueue {
-    internal static func dispatchOnMain<T>(_ completion: @escaping (T?, Error?) -> Void,
-                                           _ param: T?, _ error: Error?) {
-        DispatchQueue.main.async {
-            completion(param, error)
-        }
-    }
-    internal static func dispatchOnMain<T>(_ completion: @escaping (T?) -> Void,
-                                           _ param: T?) {
-        DispatchQueue.main.async {
-            completion(param)
-        }
+internal extension DispatchQueue {
+
+    internal static func dispatchOnMain(_ closure: @autoclosure @escaping () -> Void) {
+        self.main.async(execute: closure)
     }
 }
