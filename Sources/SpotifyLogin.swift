@@ -52,11 +52,11 @@ public class SpotifyLogin {
     ///   - clientID: App's client id.
     ///   - clientSecret: App's client secret.
     ///   - redirectURL: App's redirect url.
-    public func configure(clientID: String, clientSecret: String, redirectURL: URL) {
+    public func configure(clientID: String, clientSecret: String, redirectURL: URL, showDialog: Bool? = true) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
-        self.urlBuilder = URLBuilder(clientID: clientID, clientSecret: clientSecret, redirectURL: redirectURL)
+        self.urlBuilder = URLBuilder(clientID: clientID, clientSecret: clientSecret, redirectURL: redirectURL, showDialog: showDialog!)
     }
 
     /// Asynchronous call to retrieve the session's auth token. Automatically refreshes if auth token expired. 
