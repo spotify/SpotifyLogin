@@ -52,4 +52,6 @@ public enum Scope: String {
     case userModifyPlaybackState = "user-modify-playback-state"
     /// Read access to user's currently playing track
     case userReadCurrentlyPlaying = "user-read-currently-playing"
+    /// Upload new photo to playlist
+    case ugcImageUpload = "ugc-image-upload"
 }
