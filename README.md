@@ -1,11 +1,11 @@
-![SpotifyLogin - Swift 4 Framework for authenticating with the Spotify API ](https://user-images.githubusercontent.com/889949/28974990-b2eb0328-7938-11e7-9d19-1ff86d77324b.png)
+![SpotifyLogin - Swift 5 Framework for authenticating with the Spotify API ](https://user-images.githubusercontent.com/889949/28974990-b2eb0328-7938-11e7-9d19-1ff86d77324b.png)
 
 [![Build Status](https://travis-ci.org/spotify/SpotifyLogin.svg?branch=master)](https://travis-ci.org/spotify/SpotifyLogin)
 [![Version](http://img.shields.io/cocoapods/v/SpotifyLogin.svg)](http://cocoapods.org/?q=SpotifyLogin)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 # SpotifyLogin
-SpotifyLogin is a Swift 4 Framework for authenticating with the Spotify API.
+SpotifyLogin is a Swift 5 Framework for authenticating with the Spotify API.
 
 Usage of this framework is bound under the [Developer Terms of Use](https://developer.spotify.com/developer-terms-of-use/).
 

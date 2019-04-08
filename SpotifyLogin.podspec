@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = "SpotifyLogin"
   s.version          = "0.1.6"
-  s.summary          = "Swift 4 Framework for authenticating with the Spotify API."
+  s.summary          = "Swift 5 Framework for authenticating with the Spotify API."
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description      = <<-DESC
-                        SpotifyLogin provides a modern Swift 4 Framework for authenticating with the Spotify API.
+                        SpotifyLogin provides a modern Swift 5 Framework for authenticating with the Spotify API.
                        DESC
 
   s.homepage         = "https://github.com/spotify/SpotifyLogin"
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/spotify/SpotifyLogin.git", :tag => s.version.to_s }
   s.social_media_url   = "http://twitter.com/marmelroy"
 
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
 
   s.ios.deployment_target = '9.0'
   s.requires_arc = true
