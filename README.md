@@ -17,14 +17,14 @@ SpotifyLogin is appropriate for prototyping and non-commercial use only.
 **If your app is meant for commercial production usage, SpotifyLogin can NOT be used.**
 
 ### Compatibility
-SpotifyLogin requires Xcode 9.0+. It is compatible with iOS 9 or later. 
+SpotifyLogin requires Xcode 10.0+. It is compatible with iOS 9 or later. 
 
 ### Pre-requisites
 You will need to register your app in the [Developer Portal](https://developer.spotify.com/my-applications/#!/applications).
 
 Make sure to use a unique redirect url and to supply the bundle ID from your app.
 
-After registering, you will receive a client ID and a client secret. 
+After registering, you will receive a client ID and a client secret.
 
 ### Set up SpotifyLogin
 
