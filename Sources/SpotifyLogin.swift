@@ -167,5 +167,5 @@ public enum LoginError: Error {
 
 public extension Notification.Name {
     /// A Notification that is emitted by SpotifyLogin after a successful login. Can be used to update the UI.
-    public static let SpotifyLoginSuccessful = Notification.Name("SpotifyLoginSuccessful")
+    static let SpotifyLoginSuccessful = Notification.Name("SpotifyLoginSuccessful")
 }
