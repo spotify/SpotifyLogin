@@ -36,7 +36,8 @@ public class SpotifyLoginPresenter {
             viewController.definesPresentationContext = true
             let safariViewController: SFSafariViewController = SFSafariViewController(url: webAuthenticationURL)
             safariViewController.modalPresentationStyle = .pageSheet
-            safariViewController.delegate = SafariDelegate()
+            let delegate = SafariDelegate()
+            safariViewController.delegate = delegate
             viewController.present(safariViewController, animated: true, completion: nil)
             SpotifyLogin.shared.safariVC = safariViewController
         } else {
