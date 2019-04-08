@@ -52,4 +52,8 @@ public enum Scope: String {
     case userModifyPlaybackState = "user-modify-playback-state"
     /// Read access to user's currently playing track
     case userReadCurrentlyPlaying = "user-read-currently-playing"
+    /// Remote control playback of Spotify. This scope is currently available to Spotify iOS and Android App Remote SDKs
+    case appRemoteControl = "app-remote-control"
+    /// Upload a Custom Playlist Cover Image
+    case ugcImageUpload = "ugc-image-upload"
 }
