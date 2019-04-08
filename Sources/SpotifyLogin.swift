@@ -56,7 +56,10 @@ public class SpotifyLogin {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
-        self.urlBuilder = URLBuilder(clientID: clientID, clientSecret: clientSecret, redirectURL: redirectURL, showDialog: showDialog!)
+        self.urlBuilder = URLBuilder(clientID: clientID,
+                                     clientSecret: clientSecret,
+                                     redirectURL: redirectURL,
+                                     showDialog: showDialog!)
     }
 
     /// Asynchronous call to retrieve the session's auth token. Automatically refreshes if auth token expired. 
