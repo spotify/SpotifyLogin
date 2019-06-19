@@ -56,7 +56,10 @@ public class SpotifyLogin {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.redirectURL = redirectURL
-        self.urlBuilder = URLBuilder(clientID: clientID, clientSecret: clientSecret, redirectURL: redirectURL, showDialog: showDialog!)
+        self.urlBuilder = URLBuilder(clientID: clientID,
+                                     clientSecret: clientSecret,
+                                     redirectURL: redirectURL,
+                                     showDialog: showDialog!)
     }
 
     /// Asynchronous call to retrieve the session's auth token. Automatically refreshes if auth token expired. 
@@ -164,5 +167,5 @@ public enum LoginError: Error {
 
 public extension Notification.Name {
     /// A Notification that is emitted by SpotifyLogin after a successful login. Can be used to update the UI.
-    public static let SpotifyLoginSuccessful = Notification.Name("SpotifyLoginSuccessful")
+    static let SpotifyLoginSuccessful = Notification.Name("SpotifyLoginSuccessful")
 }
