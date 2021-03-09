@@ -41,7 +41,30 @@ Add the app's identifer as the **Identifier** and the redirect url scheme in **U
 Additionally, you will need to add "spotify-action" to the LSApplicationQueriesSchemes key:
 ![LSApplicationQueriesSchemes](https://user-images.githubusercontent.com/889949/29968001-f020c4d4-8f19-11e7-8925-433d3b30f842.png)
 
-### Set up your AppDelegate
+### Set up your AppDelegate and SceneDelegate (for iOS 13 or above)
+
+Add the following to your app delegate:
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    SpotifyLogin.shared.configure(clientID: <#T##String#>, clientSecret: <#T##String#>, redirectURL: <#T##URL#>)
+    return true
+}
+```
+
+Add the following to your scene delegate:
+
+```swift
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+     guard let url = URLContexts.first?.url else {
+            return
+     }
+     let handle = SpotifyLogin.shared.applicationOpenURL(url) { (error) in }
+     return
+}
+```
+
+### Set up your AppDelegate (for iOS 12 or below)
 
 Add the following to your app delegate:
 
